@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PicturePicker : MonoBehaviour {
 
     public static string PreviousScene = "";
-    public static Pickable pickable = Data.Profile.drivers;
+    public static Pickable pickable;
     public GameObject imageTemplate;
     public TextMeshProUGUI selectedCounterTextBox;
     private bool isInDeleteMode = false;
@@ -17,6 +17,11 @@ public class PicturePicker : MonoBehaviour {
         PicturePicker.pickable = pickable;
         PicturePicker.PreviousScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene("PicturePicker");
+    }
+
+    private void Awake()
+    {
+        pickable = Data.Profile.drivers;
     }
 
     // Use this for initialization
