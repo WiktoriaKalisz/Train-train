@@ -533,6 +533,8 @@ public class Profile {
 
 
 public static class Data {
+   
+
     static Data() {
         destination = Application.persistentDataPath + "/profiles51.bin";
         load();
@@ -568,8 +570,8 @@ public static class Data {
         Debug.Log("Profile file was saved.");
     }
 
-    public static Profile Profile;
+   
     public static string destination;
-
+    public static Profile Profile;
 
 }

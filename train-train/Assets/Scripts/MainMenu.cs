@@ -20,7 +20,8 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void onPassengerClick() {
-        PicturePicker.Modify(Data.Profile.passengers);
+        //PicturePicker.Modify(Data.Profile.passengers);
+        SceneManager.LoadScene("PicturePicker");
     }
 
     public void onSettingsClick()

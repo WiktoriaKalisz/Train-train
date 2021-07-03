@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CustomSetPicker : MonoBehaviour {
 
     public static string PreviousScene = "";
-    public static SymbolMappings pickable = Data.Profile.customMappings;
+    public static SymbolMappings pickable;
     public GameObject customTemplate;
     public TextMeshProUGUI selectedCounterTextBox;
     public TMP_InputField input;
@@ -18,6 +18,11 @@ public class CustomSetPicker : MonoBehaviour {
         CustomSetPicker.pickable = pickable;
         CustomSetPicker.PreviousScene = SceneManager.GetActiveScene().name;
         SceneManager.LoadScene("CustomSetPick");
+    }
+
+    private void Awake()
+    {
+        pickable = Data.Profile.customMappings;
     }
 
     // Use this for initialization
