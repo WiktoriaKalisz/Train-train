@@ -190,19 +190,8 @@ public class World : MonoBehaviour {
 
     private void stopOnStation(Train train, Station station) {
         if (train.Speed != 0) {
-            var trainPos = train.middle.position;
-            var stationPos = station.middle.position;
-            var k = Vector3.Distance(train.middle.position, station.middle.position) / (float)10;
-            var trainBehind = train.middle.position.x < station.middle.position.x;
-            if (k < 2.5) {
-                if (train.Speed < 4 && trainBehind) {
-                    train.Speed = 4;
-                }
-
-                if (k < 0.1 || (k < 0.3 && !trainBehind)) {
-                    train.Speed = 0;
-                }
-            }
+            train.arrow.SetActive(false);
+            train.Stop();
         }
     }
 
