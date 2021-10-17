@@ -7,9 +7,7 @@ public class MainMenu : MonoBehaviour {
 
 
     public void Start() {
-        Debug.Log(Application.persistentDataPath);
         var load = Data.Profile;
-        
     }
 
     public void onPlayClick()

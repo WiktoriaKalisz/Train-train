@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEditor.Animations;
 
 public class Level {
     private List<SymbolMapping> symbols;
@@ -12,18 +11,13 @@ public class Level {
     private Train train;
     private bool doesEnd;
     private bool limitPassengers;
-    private bool calmBackground;
-    private bool leftHand;
 
-
-    public Level(Station firstStation, bool doesEnd, bool limitPassengers, Train train, List<SymbolMapping> symbols, List<Texture2D> passengers, bool calmBackground, bool leftHand) {
+    public Level(Station firstStation, bool doesEnd, bool limitPassengers, Train train, List<SymbolMapping> symbols, List<Texture2D> passengers) {
         this.symbols = symbols;
         this.passengers = passengers;
         this.train = train;
         this.doesEnd = doesEnd;
         this.limitPassengers = limitPassengers;
-        this.calmBackground = calmBackground;
-        this.leftHand = leftHand;
 
         var toSpawn = train.seats.Count;
         foreach (var seat in firstStation.seats) {
@@ -108,103 +102,24 @@ public class Level {
 }
 
 public class World : MonoBehaviour {
-
     public Level level;
     public Station station;
     public Train train;
     public Environment environment;
     public Text scoreText;
-    public Text back;
-    public Text startText;
     private int score = 0;
     private bool quit = false;
     private float _newStationDistance = 100;
     private bool enablePassengerMove = false;
     public Vector2 StationCenterPosition;
-    public GameObject trainObject;
-    public GameObject directionalLightObject;
-    public Light directionalLight;
-    private bool alreadyStarted = false;
-
 
     private void Start() {
         var passengers = Data.Profile.passengers.selected();
         var symbols = Data.Profile.Symbols;
-        level = new Level(station, Data.Profile.doesEnd, Data.Profile.limitPassengers, train, symbols, passengers, Data.Profile.calmBackground, Data.Profile.leftHand);
+        level = new Level(station, Data.Profile.doesEnd, Data.Profile.limitPassengers, train, symbols, passengers);
         train.SpeedLimit = Data.Profile.trainSpeed;
         train.driver = Data.Profile.drivers.selected();
         scoreText.gameObject.SetActive(Data.Profile.allowScore);
-        startText.gameObject.SetActive(false);
-        train.move.gameObject.SetActive(Data.Profile.allowLabels && Data.Profile.leftHand);
-        train.move2.gameObject.SetActive(Data.Profile.allowLabels && !Data.Profile.leftHand);
-
-        ShowStart();
-        HideBack();
-        HideMoves();
-
-        GameObject.Find("background_2_1422x768@2x").SetActive(!Data.Profile.calmBackground);
-        GameObject.Find("background_1_1422x768@2x").SetActive(!Data.Profile.calmBackground);
-        GameObject.Find("calm_background_1@2x").SetActive(Data.Profile.calmBackground);
-        GameObject.Find("calm_background_2@2x").SetActive(Data.Profile.calmBackground);
-        train.arrow.SetActive(!Data.Profile.leftHand);
-        train.arrow2.SetActive(Data.Profile.leftHand);
-        directionalLightObject = GameObject.Find("directionalLightObject");
-        directionalLight = directionalLightObject.GetComponent<Light>();
-        /*
-        if (Data.Profile.contrast >= 0 && Data.Profile.contrast < 10)
-        {
-            directionalLight.color = Color.red;
-            // directionalLight.color = new Color(Data.Profile.contrast, 0, 0);
-        }
-        else if (Data.Profile.contrast >= 10 && Data.Profile.contrast < 20)
-        {
-            directionalLight.color = Color.green;
-            //directionalLight.color = new Color(0, Data.Profile.contrast, 0);
-        }
-        else
-        {
-            directionalLight.color = Color.blue;
-            //directionalLight.color = new Color(0,0, Data.Profile.contrast);
-        }
-        */
-        switch (Data.Profile.colorScheme)
-        {
-            case 0:
-                break;
-            case 1:
-                train.c_renderer.SetColor(Color.yellow);
-                directionalLight.color = Color.blue;
-                break;
-            case 2:
-                train.c_renderer.SetColor(Color.cyan);
-                directionalLight.color = Color.yellow;
-                break;
-            case 3:
-                train.c_renderer.SetColor(Color.yellow);
-                directionalLight.color = Color.cyan;
-                break;
-            default:
-                break;
-        }
-
-        //directionalLight.color = Color.red;
-
-        // directionalLight = directionalLightObject.GetComponent<Light>();
-        //directionalLight.color = Color.red;
-
-        if (Data.Profile.leftHand)
-        {
-            Animator otherAnimator;
-            trainObject = GameObject.Find("Train");
-            otherAnimator = trainObject.GetComponent<Animator>();
-            otherAnimator.Play("arrow222");
-        }
-        //AnimatorStateMachine asm = cont.layers[0].stateMachine;
-        //AnimatorState newState = asm.AddState("Default State");
-        //asm.defaultState = newState;
-
-        // AnimatorStateMachine asm = otherAnimator.layers[0].stateMachine;
-        // asm.defaultState = 
     }
 
     private void Update() {
@@ -215,20 +130,15 @@ public class World : MonoBehaviour {
         if (quit) {
             quitGame();
         }
-        if (alreadyStarted)
-        {
-            train.move.gameObject.SetActive(false);
-            train.move2.gameObject.SetActive(false);
-        }
 
-            var rect = station.GetComponent<BoxCollider2D>().bounds;
+        var rect = station.GetComponent<BoxCollider2D>().bounds;
         enablePassengerMove = train.seats.All(seat => rect.Contains(seat.transform.position));
 
         foreach (Seat seat in FindObjectsOfType<Seat>()) {
             seat.setActive(train.Speed == 0 && enablePassengerMove);
         }
 
-        var passengersToLeave = station.seats.FindAll(s => (s.passenger && station.doesMatch(s.passenger))); 
+        var passengersToLeave = station.seats.FindAll(s => (s.passenger && station.doesMatch(s.passenger)));
         foreach (var seat in passengersToLeave) {
             seat.leaveSeat();
             score += 3;
@@ -248,59 +158,12 @@ public class World : MonoBehaviour {
         StartCoroutine(removeTrain());
     }
 
-    public void ShowStart() {
-        StartCoroutine(showText());
-    }
-
-    public void HideBack()
-    {
-        StartCoroutine(removeBack());
-    }
-
-    public void HideMoves()
-    {
-        StartCoroutine(removeMoves());
-    }
 
     private IEnumerator removeTrain() {
         train.playLeave();
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene("Menu");
     }
-
-    private IEnumerator showText() {
-        if (Data.Profile.allowLabels)
-        {
-            yield return new WaitForSeconds(4);
-            if(!alreadyStarted)
-            startText.gameObject.SetActive(true);
-        }
-    }
-
-    private IEnumerator removeBack()
-    {
-        if (Data.Profile.allowLabels)
-        {
-            yield return new WaitForSeconds(4);
-            back.gameObject.SetActive(false);
-        }
-    }
-
-    private IEnumerator removeMoves()
-    {
-        if (Data.Profile.allowLabels && Data.Profile.leftHand)
-        {
-            yield return new WaitForSeconds(4);
-            train.move.gameObject.SetActive(false);
-        }
-
-        if (Data.Profile.allowLabels && !Data.Profile.leftHand)
-        {
-            yield return new WaitForSeconds(4);
-            train.move2.gameObject.SetActive(false);
-        }
-    }
-
 
     private void SpawnStations() {
         var trainx = train.transform.position.x;
@@ -373,9 +236,6 @@ public class World : MonoBehaviour {
         if (gameObject.CompareTag("Accelerate")) {
             train.Accelerate();
             train.arrow.SetActive(false);
-            train.arrow2.SetActive(false);
-            startText.gameObject.SetActive(false);
-            alreadyStarted = true;
         }
 
         if (gameObject.CompareTag("Train Seat")) {
@@ -392,7 +252,7 @@ public class World : MonoBehaviour {
     private void HandleInput() {
         Vector2? position = null;
 
-       // train.arrow.SetActive(true);
+        train.arrow.SetActive(true);
 
         if (Input.touchCount > 0) {
             position = Input.touches[0].position;
@@ -414,6 +274,7 @@ public class World : MonoBehaviour {
         }
 
         var gameObject = hit.collider.gameObject;
+
         handleHit(gameObject);
 
     }
