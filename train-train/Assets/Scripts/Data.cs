@@ -337,9 +337,15 @@ public class Letters {
 [Serializable]
 public class Profile {
     public float trainSpeed = 25;
+    public float contrast = 25;
+    public float lightColor;
     public bool doesEnd = true;
     public bool limitPassengers = true;
     public bool allowScore = true;
+    public bool allowLabels = true;
+    public bool calmBackground = false;
+    public bool leftHand = false;
+    public int colorScheme = 1;
 
     public Drivers drivers = new Drivers();
     public Passengers passengers = new Passengers();

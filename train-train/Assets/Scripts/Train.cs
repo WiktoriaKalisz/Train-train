@@ -4,10 +4,14 @@ using UnityEngine.UI;
 
 public class Train : MonoBehaviour
 {
+    public CanvasRenderer c_renderer;
     public List<Seat> seats;
     public Transform middle;
     public Image driverImage;
     public GameObject arrow;
+    public GameObject arrow2;
+    public GameObject move;
+    public GameObject move2;
     public Texture2D driver {  get { return driverImage.sprite.texture; } set {  driverImage.sprite = Sprite.Create(value, new Rect(0, 0, value.width, value.height), new Vector2(0, 0)); } }
     public Seat FreeSeat()
     {
@@ -48,5 +52,9 @@ public class Train : MonoBehaviour
         GetComponent<Animator>().Play("train_leave");
     }
 
+    private void Start()
+    {
+        c_renderer = GetComponent<CanvasRenderer>();
+    }
 
 }
