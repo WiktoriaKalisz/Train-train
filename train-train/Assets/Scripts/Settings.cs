@@ -48,6 +48,11 @@ public class Settings : MonoBehaviour {
         SceneManager.LoadScene("Menu");
     }
 
+    public void onCredentialsClick()
+    {
+        SceneManager.LoadScene("Credentials");
+    }
+
     public void onSymbolPicturePickClick() {
         ShowSymbolEditFields();
         SelectStationSymbolPopUp.SetActive(true);
