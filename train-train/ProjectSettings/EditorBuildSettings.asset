@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CustomPicker.unity
     guid: 7b0c51c15e1f2844da0e2c2b3976de28
+  - enabled: 1
+    path: Assets/Scenes/Credentials.unity
+    guid: 3169379916ad19e46970bec4b70caac3
   m_configObjects: {}

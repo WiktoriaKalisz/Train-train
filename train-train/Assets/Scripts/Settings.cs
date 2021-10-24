@@ -3,22 +3,54 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
+//using UnityStandardAssets.ImageEffects;
 
 
 public class Settings : MonoBehaviour {
     public Slider trainSpeedSlider;
+    public Slider lightColorSlider;
     public Toggle doesGameEndToogle;
     public Toggle limitPassengers;
     public Toggle allowScore;
+    public Toggle allowLabels;
+    public Toggle calmbackground;
+    public Toggle leftHand;
     public TMP_Dropdown symbolType;
+    public TMP_Dropdown colorScheme;
     public TMP_InputField inputFieldFromDigits, inputFieldToDigits;
     public TMP_InputField inputFieldFromLetters, inputFieldToLetters;
     public GameObject SelectStationSymbolPopUp, DigitsRangeSelection, LettersRangeSelection,
                       ChangeSelectedPicturesButton, ChangeSelectedCustomButton;
 
+    public float GammaCorrection;
+
+    public void SetLevel(float value)
+    {
+        Data.Profile.contrast = lightColorSlider.value;
+        //directionalLight.color = Color.red;
+        //RenderSettings.ambientLight = Color.red;
+        //RenderSettings.ambientLight = new Color(0.5f, 0.5f, 0.5f, 1);
+        //RenderSettings.ambientLight = new Color(contrastSlider.value / 255f, contrastSlider.value / 255f, contrastSlider.value / 255f);
+    }
+
+    public void SetColorScheme(int value)
+    {
+        Data.Profile.colorScheme = colorScheme.value;
+        //directionalLight.color = Color.red;
+        //RenderSettings.ambientLight = Color.red;
+        //RenderSettings.ambientLight = new Color(0.5f, 0.5f, 0.5f, 1);
+        //RenderSettings.ambientLight = new Color(contrastSlider.value / 255f, contrastSlider.value / 255f, contrastSlider.value / 255f);
+    }
+
     public void onBackClick() {
         Data.save();
         SceneManager.LoadScene("Menu");
+    }
+
+    public void onCredentialsClick()
+    {
+        SceneManager.LoadScene("Credentials");
     }
 
     public void onSymbolPicturePickClick() {
@@ -81,6 +113,13 @@ public class Settings : MonoBehaviour {
         SaveInputFields();
     }
 
+    public void ColorSchemeSelected(int newValue)
+    {
+        Data.Profile.colorScheme = newValue;
+        //ShowSymbolEditFields();
+       // SaveInputFields();
+    }
+
     public void SaveInputFields() {
          switch (Data.Profile.symbolType) {
             case SymbolType.NumberRange:
@@ -104,15 +143,34 @@ public class Settings : MonoBehaviour {
         Data.Profile.allowScore = newValue;
     }
 
+    public void OnToggleAllowLabelsClick(bool newValue)
+    {
+        Data.Profile.allowLabels = newValue;
+    }
+
+    public void OnToggleSetCalmBackgroundClick(bool newValue)
+    {
+        Data.Profile.calmBackground = newValue;
+    }
+
+    public void OnToggleSetLeftHandClick(bool newValue)
+    {
+        Data.Profile.leftHand = newValue;
+    }
+
     public void OnToggleLimitPassengersClick(bool newValue) {
         Data.Profile.limitPassengers = newValue;
     }
 
     private void Start() {
         allowScore.isOn = Data.Profile.allowScore;
+        allowLabels.isOn = Data.Profile.allowLabels;
+        calmbackground.isOn = Data.Profile.calmBackground;
+        leftHand.isOn = Data.Profile.leftHand;
         doesGameEndToogle.isOn = Data.Profile.doesEnd;
         limitPassengers.isOn = Data.Profile.limitPassengers;
         symbolType.value = (int)Data.Profile.symbolType;
         trainSpeedSlider.value = Data.Profile.trainSpeed;
+        colorScheme.value = Data.Profile.colorScheme;
     }
 }
