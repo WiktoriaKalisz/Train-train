@@ -128,6 +128,7 @@ public class World : MonoBehaviour {
 
 
     private void Start() {
+        Input.multiTouchEnabled = false;
         var passengers = Data.Profile.passengers.selected();
         var symbols = Data.Profile.Symbols;
         level = new Level(station, Data.Profile.doesEnd, Data.Profile.limitPassengers, train, symbols, passengers, Data.Profile.calmBackground, Data.Profile.leftHand);

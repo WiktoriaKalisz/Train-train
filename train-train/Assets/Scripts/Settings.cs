@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Audio;
 //using UnityStandardAssets.ImageEffects;
 
 
-public class Settings : MonoBehaviour {
+public class Settings : MonoBehaviour
+{
     public Slider trainSpeedSlider;
     public Slider lightColorSlider;
+    public Slider soundsSlider;
+    public Slider musicSlider;
     public Toggle doesGameEndToogle;
     public Toggle limitPassengers;
     public Toggle allowScore;
@@ -24,7 +28,7 @@ public class Settings : MonoBehaviour {
                       ChangeSelectedPicturesButton, ChangeSelectedCustomButton;
 
     public float GammaCorrection;
-
+    public AudioMixer audioMixer;
     public void SetLevel(float value)
     {
         Data.Profile.contrast = lightColorSlider.value;
@@ -43,7 +47,8 @@ public class Settings : MonoBehaviour {
         //RenderSettings.ambientLight = new Color(contrastSlider.value / 255f, contrastSlider.value / 255f, contrastSlider.value / 255f);
     }
 
-    public void onBackClick() {
+    public void onBackClick()
+    {
         Data.save();
         SceneManager.LoadScene("Menu");
     }
@@ -53,41 +58,58 @@ public class Settings : MonoBehaviour {
         SceneManager.LoadScene("Credentials");
     }
 
-    public void onSymbolPicturePickClick() {
+    public void onSymbolPicturePickClick()
+    {
         ShowSymbolEditFields();
         SelectStationSymbolPopUp.SetActive(true);
     }
 
-    public void onSymbolPicturePickExitClick() {
+    public void onSymbolPicturePickExitClick()
+    {
         SaveInputFields();
         SelectStationSymbolPopUp.SetActive(false);
     }
 
-    public void onChangeSymbolPictureClick() {
-        PicturePicker.Modify(Data.Profile.textureSymbols);        
+    public void onChangeSymbolPictureClick()
+    {
+        PicturePicker.Modify(Data.Profile.textureSymbols);
     }
 
     public void onChangeSymbolCustomClick()
     {
-        CustomSetPicker.Modify( Data.Profile.customMappings );
+        CustomSetPicker.Modify(Data.Profile.customMappings);
     }
 
-    public void onResetProfileClick() {
+    public void onResetProfileClick()
+    {
         Data.reset();
         Start();
     }
 
-    public void Slider_Changed(float newValue) {
+    public void Slider_Changed(float newValue)
+    {
         Data.Profile.trainSpeed = newValue;
     }
 
-    private void ShowSymbolEditFields() {
+    public void Music_Changed(float newValue)
+    {
+        audioMixer.SetFloat("musicVolume", newValue);
+        Data.Profile.music = newValue;
+    }
+    public void Sounds_changed(float newValue)
+    {
+        audioMixer.SetFloat("soundsVolume", newValue);
+        Data.Profile.sounds = newValue;
+    }
+    private void ShowSymbolEditFields()
+    {
         ChangeSelectedPicturesButton.SetActive(false);
         DigitsRangeSelection.SetActive(false);
         LettersRangeSelection.SetActive(false);
         ChangeSelectedCustomButton.SetActive(false);
 
-        switch (Data.Profile.symbolType) {
+        switch (Data.Profile.symbolType)
+        {
             case SymbolType.SimpleTextures:
                 ChangeSelectedPicturesButton.SetActive(true);
                 break;
@@ -107,7 +129,8 @@ public class Settings : MonoBehaviour {
         }
     }
 
-    public void Symbol_type_selected(int newValue) {
+    public void Symbol_type_selected(int newValue)
+    {
         Data.Profile.symbolType = (SymbolType)newValue;
         ShowSymbolEditFields();
         SaveInputFields();
@@ -117,11 +140,13 @@ public class Settings : MonoBehaviour {
     {
         Data.Profile.colorScheme = newValue;
         //ShowSymbolEditFields();
-       // SaveInputFields();
+        // SaveInputFields();
     }
 
-    public void SaveInputFields() {
-         switch (Data.Profile.symbolType) {
+    public void SaveInputFields()
+    {
+        switch (Data.Profile.symbolType)
+        {
             case SymbolType.NumberRange:
                 Data.Profile.numberRange.begin = int.Parse(inputFieldFromDigits.text);
                 Data.Profile.numberRange.end = int.Parse(inputFieldToDigits.text);
@@ -135,11 +160,13 @@ public class Settings : MonoBehaviour {
         }
     }
 
-    public void OnToggleDoesGameEndClick(bool newValue) {
+    public void OnToggleDoesGameEndClick(bool newValue)
+    {
         Data.Profile.doesEnd = newValue;
     }
 
-    public void OnToggleAllowScoreClick(bool newValue) {
+    public void OnToggleAllowScoreClick(bool newValue)
+    {
         Data.Profile.allowScore = newValue;
     }
 
@@ -158,11 +185,14 @@ public class Settings : MonoBehaviour {
         Data.Profile.leftHand = newValue;
     }
 
-    public void OnToggleLimitPassengersClick(bool newValue) {
+    public void OnToggleLimitPassengersClick(bool newValue)
+    {
         Data.Profile.limitPassengers = newValue;
     }
 
-    private void Start() {
+    private void Start()
+    {
+        Input.multiTouchEnabled = false;
         allowScore.isOn = Data.Profile.allowScore;
         allowLabels.isOn = Data.Profile.allowLabels;
         calmbackground.isOn = Data.Profile.calmBackground;
@@ -171,6 +201,8 @@ public class Settings : MonoBehaviour {
         limitPassengers.isOn = Data.Profile.limitPassengers;
         symbolType.value = (int)Data.Profile.symbolType;
         trainSpeedSlider.value = Data.Profile.trainSpeed;
+        musicSlider.value = Data.Profile.music;
+        soundsSlider.value = Data.Profile.sounds;
         colorScheme.value = Data.Profile.colorScheme;
     }
 }

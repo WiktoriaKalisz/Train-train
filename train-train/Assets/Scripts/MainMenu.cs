@@ -7,6 +7,7 @@ public class MainMenu : MonoBehaviour {
 
 
     public void Start() {
+        Input.multiTouchEnabled = false;
         Debug.Log(Application.persistentDataPath);
         var load = Data.Profile;
         

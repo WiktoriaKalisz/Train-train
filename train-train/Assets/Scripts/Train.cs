@@ -12,7 +12,8 @@ public class Train : MonoBehaviour
     public GameObject arrow2;
     public GameObject move;
     public GameObject move2;
-    public Texture2D driver {  get { return driverImage.sprite.texture; } set {  driverImage.sprite = Sprite.Create(value, new Rect(0, 0, value.width, value.height), new Vector2(0, 0)); } }
+    public AudioSource ridingSound;
+    public Texture2D driver { get { return driverImage.sprite.texture; } set { driverImage.sprite = Sprite.Create(value, new Rect(0, 0, value.width, value.height), new Vector2(0, 0)); } }
     public Seat FreeSeat()
     {
         var seat = seats.Find(s => s.isEmpty());
@@ -25,16 +26,26 @@ public class Train : MonoBehaviour
     public float SpeedLimit = 500;
 
     private float _speed = 0;
-    public float Speed {
+    public float Speed
+    {
         get { return _speed; }
-        set {
+        set
+        {
             _speed = Mathf.Clamp(value, 0f, SpeedLimit);
         }
     }
 
+    private void Awake()
+    {
+        ridingSound = GetComponent<AudioSource>();
+    }
     public void Accelerate()
     {
         Speed += Time.deltaTime * AccelerationSpeed;
+        if (!ridingSound.isPlaying)
+        {
+            ridingSound.Play();
+        }
     }
 
     public void Decelerate()
@@ -43,6 +54,7 @@ public class Train : MonoBehaviour
     }
     public void Stop()
     {
+        ridingSound.Stop();
         Speed = 0;
     }
     public void Break()
