@@ -116,6 +116,8 @@ public class World : MonoBehaviour {
     public Text scoreText;
     public Text back;
     public Text startText;
+    public Text endText;
+    public Text pointsText;
     private int score = 0;
     private bool quit = false;
     private float _newStationDistance = 100;
@@ -135,7 +137,9 @@ public class World : MonoBehaviour {
         train.SpeedLimit = Data.Profile.trainSpeed;
         train.driver = Data.Profile.drivers.selected();
         scoreText.gameObject.SetActive(Data.Profile.allowScore);
+        pointsText.gameObject.SetActive(false);
         startText.gameObject.SetActive(false);
+        endText.gameObject.SetActive(false);
         train.move.gameObject.SetActive(Data.Profile.allowLabels && Data.Profile.leftHand);
         train.move2.gameObject.SetActive(Data.Profile.allowLabels && !Data.Profile.leftHand);
 
@@ -212,6 +216,7 @@ public class World : MonoBehaviour {
         SpawnStations();
         HandleInput();
         MoveWorld();
+        ShowEnd();
         train.Decelerate();
         if (quit) {
             quitGame();
@@ -253,6 +258,11 @@ public class World : MonoBehaviour {
         StartCoroutine(showText());
     }
 
+    public void ShowEnd()
+    {
+        StartCoroutine(showTextEnding());
+    }
+
     public void HideBack()
     {
         StartCoroutine(removeBack());
@@ -275,6 +285,21 @@ public class World : MonoBehaviour {
             yield return new WaitForSeconds(4);
             if(!alreadyStarted)
             startText.gameObject.SetActive(true);
+        }
+    }
+
+    private IEnumerator showTextEnding()
+    {
+        if (Data.Profile.end == true)
+        {
+            pointsText.text = score.ToString();
+            yield return new WaitForSeconds(1);           
+            endText.gameObject.SetActive(true);
+            pointsText.gameObject.SetActive(true);
+            yield return new WaitForSeconds(3);
+            endText.gameObject.SetActive(false);
+            pointsText.gameObject.SetActive(false);
+            SceneManager.LoadScene("Menu");
         }
     }
 

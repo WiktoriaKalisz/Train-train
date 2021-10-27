@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class Train : MonoBehaviour
 {
@@ -65,6 +67,7 @@ public class Train : MonoBehaviour
     public void playLeave()
     {
         GetComponent<Animator>().Play("train_leave");
+        Data.Profile.end = true;
     }
 
     private void Start()

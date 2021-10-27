@@ -416,6 +416,7 @@ public class Profile
     public bool calmBackground = false;
     public bool leftHand = false;
     public int colorScheme = 1;
+    public bool end = false;
 
     public Drivers drivers = new Drivers();
     public Passengers passengers = new Passengers();
