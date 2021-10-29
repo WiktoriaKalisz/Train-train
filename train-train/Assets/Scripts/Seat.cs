@@ -10,7 +10,6 @@ public class Seat : MonoBehaviour
     public bool isEmpty() { return passenger == null && !blocked; }
     public void Place(Passenger passenger)
     {
-
         passenger.transform.SetParent(transform);
         this.passenger = passenger;
 
@@ -21,6 +20,7 @@ public class Seat : MonoBehaviour
 
     public Passenger Remove()
     {
+        Data.Profile.left = true;
         var tmp = passenger;
         passenger = null;
         return tmp;
@@ -36,6 +36,7 @@ public class Seat : MonoBehaviour
 
     private IEnumerator Leave()
     {
+       
         blocked = true;
         passenger.playLeave();
         var go = passenger.gameObject;
@@ -52,6 +53,7 @@ public class Seat : MonoBehaviour
         if (passenger) {
             Collider.enabled = active;
             passenger.active = active;
+           
         }
     }
 

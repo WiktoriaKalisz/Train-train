@@ -118,6 +118,7 @@ public class World : MonoBehaviour {
     public Text startText;
     public Text endText;
     public Text pointsText;
+    public Text chooseText;
     private int score = 0;
     private bool quit = false;
     private float _newStationDistance = 100;
@@ -142,10 +143,12 @@ public class World : MonoBehaviour {
         endText.gameObject.SetActive(false);
         train.move.gameObject.SetActive(Data.Profile.allowLabels && Data.Profile.leftHand);
         train.move2.gameObject.SetActive(Data.Profile.allowLabels && !Data.Profile.leftHand);
+        chooseText.gameObject.SetActive(false);
 
         ShowStart();
         HideBack();
         HideMoves();
+        ShowChoose();
 
         GameObject.Find("background_2_1422x768@2x").SetActive(!Data.Profile.calmBackground);
         GameObject.Find("background_1_1422x768@2x").SetActive(!Data.Profile.calmBackground);
@@ -230,8 +233,18 @@ public class World : MonoBehaviour {
             var rect = station.GetComponent<BoxCollider2D>().bounds;
         enablePassengerMove = train.seats.All(seat => rect.Contains(seat.transform.position));
 
+
+        if(Data.Profile.left)
+            chooseText.gameObject.SetActive(false);
+
+
+
+
+
         foreach (Seat seat in FindObjectsOfType<Seat>()) {
+           
             seat.setActive(train.Speed == 0 && enablePassengerMove);
+            
         }
 
         var passengersToLeave = station.seats.FindAll(s => (s.passenger && station.doesMatch(s.passenger))); 
@@ -273,6 +286,27 @@ public class World : MonoBehaviour {
         StartCoroutine(removeMoves());
     }
 
+    public void ShowChoose()
+    {
+        StartCoroutine(showChooseTag());
+    }
+
+   
+
+    private IEnumerator showChooseTag()
+    {
+        if (Data.Profile.allowLabels)
+        {
+            yield return new WaitForSeconds(6);
+            if (Data.Profile.left == false)
+            {
+                    chooseText.gameObject.SetActive(true);
+            }
+        }        
+    }
+
+   
+
     private IEnumerator removeTrain() {
         train.playLeave();
         yield return new WaitForSeconds(5);
@@ -299,7 +333,9 @@ public class World : MonoBehaviour {
             yield return new WaitForSeconds(3);
             endText.gameObject.SetActive(false);
             pointsText.gameObject.SetActive(false);
+            Data.Profile.end = false;
             SceneManager.LoadScene("Menu");
+            Data.Profile.end = false;
         }
     }
 
