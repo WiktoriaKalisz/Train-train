@@ -39,6 +39,7 @@ namespace TMPro.Examples
 
             // Set the size of the font.
             m_text.fontSize = 120;
+           
 
             // Set the text
             m_text.text = "A <#0080ff>simple</color> line of text.";

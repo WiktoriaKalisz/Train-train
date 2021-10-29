@@ -76,7 +76,8 @@ namespace TMPro.Examples
                 else
                 {
                     m_textMesh.font = Resources.Load("Fonts/ARIAL", typeof(Font)) as Font;
-                    m_textMesh.GetComponent<Renderer>().sharedMaterial = m_textMesh.font.material;
+                   
+                   m_textMesh.GetComponent<Renderer>().sharedMaterial = m_textMesh.font.material;
                 }
 
                 m_textMesh.fontSize = 48;
