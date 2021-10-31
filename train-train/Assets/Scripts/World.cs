@@ -156,6 +156,8 @@ public class World : MonoBehaviour {
         GameObject.Find("calm_background_2@2x").SetActive(Data.Profile.calmBackground);
         train.arrow.SetActive(!Data.Profile.leftHand);
         train.arrow2.SetActive(Data.Profile.leftHand);
+        train.arrowHitbox.SetActive(!Data.Profile.leftHand);
+        train.arrowHitbox2.SetActive(Data.Profile.leftHand);
         directionalLightObject = GameObject.Find("directionalLightObject");
         directionalLight = directionalLightObject.GetComponent<Light>();
         /*
@@ -295,12 +297,14 @@ public class World : MonoBehaviour {
 
     private IEnumerator showChooseTag()
     {
+        
         if (Data.Profile.allowLabels)
         {
             yield return new WaitForSeconds(6);
             if (Data.Profile.left == false)
             {
                     chooseText.gameObject.SetActive(true);
+                    Data.Profile.left = false;
             }
         }        
     }

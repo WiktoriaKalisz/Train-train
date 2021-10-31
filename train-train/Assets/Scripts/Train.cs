@@ -12,6 +12,8 @@ public class Train : MonoBehaviour
     public Image driverImage;
     public GameObject arrow;
     public GameObject arrow2;
+    public GameObject arrowHitbox;
+    public GameObject arrowHitbox2;
     public GameObject move;
     public GameObject move2;
     public AudioSource ridingSound;

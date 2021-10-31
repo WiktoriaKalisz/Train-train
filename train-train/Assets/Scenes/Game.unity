@@ -1452,6 +1452,8 @@ MonoBehaviour:
   driverImage: {fileID: 1773028945}
   arrow: {fileID: 538321097}
   arrow2: {fileID: 834230607}
+  arrowHitbox: {fileID: 1269273534}
+  arrowHitbox2: {fileID: 1251803656}
   move: {fileID: 1591203453}
   move2: {fileID: 2106368219}
   ridingSound: {fileID: 0}
