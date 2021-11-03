@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class Passenger : MonoBehaviour
 {
+    public CanvasRenderer p_renderer;
     public Animator animator;
     public RawImage image;
     public SymbolRepresentation symbolRepresentation;
@@ -42,4 +43,10 @@ public class Passenger : MonoBehaviour
     {
         animator.Play("passenger_leave");
     }
+
+    private void Start()
+    {
+        p_renderer = GetComponent<CanvasRenderer>();
+    }
+
 }

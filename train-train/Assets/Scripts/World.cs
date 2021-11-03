@@ -163,19 +163,38 @@ public class World : MonoBehaviour {
        
         switch (Data.Profile.colorScheme)
         {
-            case 0:
+            case 0://default
                 break;
-            case 1:
+            case 1://protanope
                 train.c_renderer.SetColor(Color.yellow);
                 directionalLight.color = Color.blue;
+                directionalLight.intensity =0.8f;
+                pointsText.color = Color.white;
+                chooseText.color = Color.white;
+                startText.color = Color.white;
+                endText.color = Color.white;
+                                
+
                 break;
-            case 2:
-                train.c_renderer.SetColor(Color.cyan);
-                directionalLight.color = Color.yellow;
+            case 2://deuteranope
+                train.c_renderer.SetColor(Color.yellow);
+                directionalLight.color = Color.blue;
+                directionalLight.intensity = 1.0f;
+                pointsText.color = Color.white;
+                chooseText.color = Color.white;
+                startText.color = Color.white;
+                endText.color = Color.white;
+
                 break;
-            case 3:
+            case 3://tritanope
                 train.c_renderer.SetColor(Color.yellow);
                 directionalLight.color = Color.cyan;
+                directionalLight.intensity = 0.5f;
+                pointsText.color = Color.yellow;
+                chooseText.color = Color.yellow;
+                startText.color = Color.yellow;
+                endText.color = Color.yellow;
+               
                 break;
             default:
                 break;

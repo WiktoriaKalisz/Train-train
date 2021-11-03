@@ -784,7 +784,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.1
+  m_Intensity: 0.2
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -1828,7 +1828,7 @@ MonoBehaviour:
   chooseText: {fileID: 1949594407}
   StationCenterPosition: {x: 0, y: 0}
   trainObject: {fileID: 0}
-  directionalLightObject: {fileID: 0}
+  directionalLightObject: {fileID: 2101454604}
   directionalLight: {fileID: 0}
 --- !u!82 &956482057
 AudioSource:
@@ -2861,6 +2861,20 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1054029513492926, guid: d921ee6fe809f5040b30fe86322807c4, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224513937627940392, guid: d921ee6fe809f5040b30fe86322807c4,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 21.189114
+      objectReference: {fileID: 0}
+    - target: {fileID: 224513937627940392, guid: d921ee6fe809f5040b30fe86322807c4,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 45.24475
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d921ee6fe809f5040b30fe86322807c4, type: 2}
   m_IsPrefabAsset: 0
@@ -3840,7 +3854,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.7
+  m_Intensity: 0.6
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
