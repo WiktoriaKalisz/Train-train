@@ -160,23 +160,7 @@ public class World : MonoBehaviour {
         train.arrowHitbox2.SetActive(Data.Profile.leftHand);
         directionalLightObject = GameObject.Find("directionalLightObject");
         directionalLight = directionalLightObject.GetComponent<Light>();
-        /*
-        if (Data.Profile.contrast >= 0 && Data.Profile.contrast < 10)
-        {
-            directionalLight.color = Color.red;
-            // directionalLight.color = new Color(Data.Profile.contrast, 0, 0);
-        }
-        else if (Data.Profile.contrast >= 10 && Data.Profile.contrast < 20)
-        {
-            directionalLight.color = Color.green;
-            //directionalLight.color = new Color(0, Data.Profile.contrast, 0);
-        }
-        else
-        {
-            directionalLight.color = Color.blue;
-            //directionalLight.color = new Color(0,0, Data.Profile.contrast);
-        }
-        */
+       
         switch (Data.Profile.colorScheme)
         {
             case 0:
@@ -197,11 +181,6 @@ public class World : MonoBehaviour {
                 break;
         }
 
-        //directionalLight.color = Color.red;
-
-        // directionalLight = directionalLightObject.GetComponent<Light>();
-        //directionalLight.color = Color.red;
-
         if (Data.Profile.leftHand)
         {
             Animator otherAnimator;
@@ -209,12 +188,7 @@ public class World : MonoBehaviour {
             otherAnimator = trainObject.GetComponent<Animator>();
             otherAnimator.Play("arrow222");
         }
-        //AnimatorStateMachine asm = cont.layers[0].stateMachine;
-        //AnimatorState newState = asm.AddState("Default State");
-        //asm.defaultState = newState;
-
-        // AnimatorStateMachine asm = otherAnimator.layers[0].stateMachine;
-        // asm.defaultState = 
+       
     }
 
     private void Update() {
@@ -369,11 +343,17 @@ public class World : MonoBehaviour {
 
 
     private void SpawnStations() {
+        if (quit == true)
+        {
+            return;
+        }
         var trainx = train.transform.position.x;
         var stationx = station.transform.position.x;
         if (trainx - stationx < 30) {
             return;
         }
+
+        List < Passenger > pas= train.seats.Select(s => s.passenger).ToList().FindAll(p => p != null && station.doesMatch(p));
 
         train.seats.Select(s => s.passenger).ToList().FindAll(p => p != null && station.doesMatch(p)).ForEach(s => { s.playSad(); score -= 3;
             scoreText.text = score.ToString();
