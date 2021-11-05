@@ -44,13 +44,16 @@ public class Train : MonoBehaviour
     private void Awake()
     {
         ridingSound = GetComponent<AudioSource>();
+        audioMixer.SetFloat("Master", 20f);
+        audioMixer.SetFloat("soundsVolume", Data.Profile.sounds);
+        audioMixer.SetFloat("musicVolume", Data.Profile.music);
     }
     public void Accelerate()
     {
         Speed += Time.deltaTime * AccelerationSpeed;
         float tmp;
-        var unused = audioMixer.GetFloat("musicVolume", out tmp);
-        if (tmp > -80.0f)
+        var unused = audioMixer.GetFloat("soundsVolume", out tmp);
+        if (tmp >= -80.0f)
         {
             if (!ridingSound.isPlaying)
             {

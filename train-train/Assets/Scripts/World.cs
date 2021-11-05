@@ -125,6 +125,7 @@ public class World : MonoBehaviour {
     public Text avgPointsText;
     public Text increasedLevelText;
     public Text chooseText;
+    public Text gameModeText;
     private int score = 0;
     private bool quit = false;
     private float _newStationDistance = 100;
@@ -138,9 +139,13 @@ public class World : MonoBehaviour {
     public AudioSource music;
     private bool UpdatedAvgScore = false, increasedMathLevel = false;
     private void Awake()
-    { 
+    {
+
+        audioMixer.SetFloat("Master", 20f);
+        audioMixer.SetFloat("soundsVolume", Data.Profile.sounds);
+        audioMixer.SetFloat("musicVolume", Data.Profile.music);
         float tmp;
-        var unused = audioMixer.GetFloat("soundsVolume", out tmp);
+        var unused = audioMixer.GetFloat("musicVolume", out tmp);
         if (tmp <= -80.0f)
         {
             if (music.isPlaying)
@@ -155,6 +160,7 @@ public class World : MonoBehaviour {
                 music.Play();
             }
         }
+        gameModeText.text = Data.Profile.GetGameMode();
 
     }
     private void Start() {

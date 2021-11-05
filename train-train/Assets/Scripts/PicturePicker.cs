@@ -21,7 +21,6 @@ public class PicturePicker : MonoBehaviour {
 
     private void Awake()
     {
-        pickable = Data.Profile.drivers;
     }
 
     // Use this for initialization

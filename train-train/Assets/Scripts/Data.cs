@@ -827,6 +827,34 @@ public class Profile
         textureSymbols.AllTextures().ForEach(t => textureSymbols.Select(t));
         return textureSymbols;
     }
+
+    public string GetGameMode()
+    {
+        switch (symbolType)
+        {
+            case SymbolType.SimpleTextures:
+                return "Simple Textures";
+            case SymbolType.NumberRange:
+                return "Number Range";
+            case SymbolType.Letters:
+                return "Letters";
+            case SymbolType.ExampleMath:
+                return "Math Mixer";
+            case SymbolType.ElementaryMath:
+                return "Math Elementary";
+            case SymbolType.BeginnerMath:
+                return "Math Beginner";
+            case SymbolType.AdvancedMath:
+                return "Math Advanced";
+            case SymbolType.ExpertMath:
+                return "Math Expert";
+            case SymbolType.ExampleEnglish:
+                return "English";
+            case SymbolType.CustomMapping:
+                return "Custom";
+        }
+        return null;
+    }
 }
 
 
