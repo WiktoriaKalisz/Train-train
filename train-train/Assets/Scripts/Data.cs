@@ -439,7 +439,25 @@ public class Profile
     public List<SymbolMapping> expertMath;
     public List<SymbolMapping> exampleEnglish;
 
+    public double avgScoreOnCurrentGameMode = 0.0f;
+    public int numberOfGamesOnCurrentGameMode = 0;
 
+    public static bool PassengersAnimals = true;
+    public bool isAnimalsOn;
+    public void ResetScore()
+    {
+        avgScoreOnCurrentGameMode = 0.0f;
+        numberOfGamesOnCurrentGameMode = 0;
+    }
+    public bool canMathDifficultyBeIncreased()
+    {
+        return (this.symbolType >= SymbolType.ElementaryMath && this.symbolType < SymbolType.ExpertMath);
+    }
+    public void IncreaseMathDifficulty()
+    {
+        
+        this.symbolType += 1;
+    }
     public List<SymbolMapping> Symbols
     {
         get
@@ -727,13 +745,14 @@ public class Profile
         {
             var texture = Resources.Load<Texture2D>(path);
             passengers.Add(texture);
-            passengers.Select(texture);
+            if(PassengersAnimals == true) passengers.Select(texture);
         }
 
         foreach (var path in new List<string>() { "Images/businessman", "Images/doctor", "Images/girl", "Images/girl2", "Images/girl3", "Images/man2", "Images/student", "Images/woman", })
         {
             var texture = Resources.Load<Texture2D>(path);
             passengers.Add(texture);
+            if (PassengersAnimals == false) passengers.Select(texture);
         }
 
         return passengers;
@@ -766,6 +785,7 @@ public class Profile
         advancedMath = advancedMathMappings();
         expertMath = expertMathMappings();
         exampleEnglish = exampleEnglishMappings();
+        
     }
 
     private static Drivers defaultDrivers()
@@ -837,6 +857,7 @@ public static class Data
         Profile.drivers.AllTextures();
         Profile.passengers.AllTextures();
         Profile.textureSymbols.AllTextures();
+        Profile.PassengersAnimals = Profile.isAnimalsOn;
 
         Debug.Log("Profile file was loaded.");
     }
@@ -850,6 +871,7 @@ public static class Data
 
     public static void save()
     {
+        Profile.isAnimalsOn = Profile.PassengersAnimals;
         var file = File.Open(destination, FileMode.Create);
         new BinaryFormatter().Serialize(file, Profile);
         file.Close();

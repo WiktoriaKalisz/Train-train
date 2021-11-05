@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEditor.Animations;
+//using UnityEditor.Animations; DO NOT use it, it breaks build
 
 public class Level {
     private List<SymbolMapping> symbols;
@@ -14,7 +14,7 @@ public class Level {
     private bool limitPassengers;
     private bool calmBackground;
     private bool leftHand;
-
+    private int maxPointsToEarn = 0;
 
     public Level(Station firstStation, bool doesEnd, bool limitPassengers, Train train, List<SymbolMapping> symbols, List<Texture2D> passengers, bool calmBackground, bool leftHand) {
         this.symbols = symbols;
@@ -31,7 +31,7 @@ public class Level {
                 if (limitPassengers && toSpawn-- <= 0) {
                     continue;
                 }
-
+                maxPointsToEarn += 2;
                 var p = getNextPassenger(firstStation);
                 if (p != null) {
                     seat.Place(p);
@@ -105,6 +105,10 @@ public class Level {
         return newstation;
     }
 
+    public float GetMaxScoreToEarn()
+    {
+        return this.maxPointsToEarn;
+    }
 }
 
 public class World : MonoBehaviour {
@@ -118,6 +122,8 @@ public class World : MonoBehaviour {
     public Text startText;
     public Text endText;
     public Text pointsText;
+    public Text avgPointsText;
+    public Text increasedLevelText;
     public Text chooseText;
     private int score = 0;
     private bool quit = false;
@@ -128,8 +134,29 @@ public class World : MonoBehaviour {
     public GameObject directionalLightObject;
     public Light directionalLight;
     private bool alreadyStarted = false;
+    public UnityEngine.Audio.AudioMixer audioMixer;
+    public AudioSource music;
+    private bool UpdatedAvgScore = false, increasedMathLevel = false;
+    private void Awake()
+    { 
+        float tmp;
+        var unused = audioMixer.GetFloat("soundsVolume", out tmp);
+        if (tmp <= -80.0f)
+        {
+            if (music.isPlaying)
+            {
+                music.Stop();
+            }
+        }
+        else
+        {
+            if (!music.isPlaying)
+            {
+                music.Play();
+            }
+        }
 
-
+    }
     private void Start() {
         Input.multiTouchEnabled = false;
         var passengers = Data.Profile.passengers.selected();
@@ -139,8 +166,10 @@ public class World : MonoBehaviour {
         train.driver = Data.Profile.drivers.selected();
         scoreText.gameObject.SetActive(Data.Profile.allowScore);
         pointsText.gameObject.SetActive(false);
+        avgPointsText.gameObject.SetActive(false);
         startText.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);
+        increasedLevelText.gameObject.SetActive(false);
         train.move.gameObject.SetActive(Data.Profile.allowLabels && Data.Profile.leftHand);
         train.move2.gameObject.SetActive(Data.Profile.allowLabels && !Data.Profile.leftHand);
         chooseText.gameObject.SetActive(false);
@@ -323,13 +352,39 @@ public class World : MonoBehaviour {
     {
         if (Data.Profile.end == true)
         {
+            if (!UpdatedAvgScore)
+            {
+                Data.Profile.numberOfGamesOnCurrentGameMode++;
+                float percentageScore = 100.0f * score / level.GetMaxScoreToEarn();
+                Data.Profile.avgScoreOnCurrentGameMode = ((Data.Profile.avgScoreOnCurrentGameMode * (Data.Profile.numberOfGamesOnCurrentGameMode - 1)) + percentageScore) / (Data.Profile.numberOfGamesOnCurrentGameMode);
+                UpdatedAvgScore = true;
+            }
             pointsText.text = score.ToString();
+            avgPointsText.text = Data.Profile.avgScoreOnCurrentGameMode.ToString(); 
             yield return new WaitForSeconds(1);           
             endText.gameObject.SetActive(true);
             pointsText.gameObject.SetActive(true);
+            avgPointsText.gameObject.SetActive(true);
+            if (Data.Profile.avgScoreOnCurrentGameMode > 70.0f && Data.Profile.numberOfGamesOnCurrentGameMode >= 10 && Data.Profile.canMathDifficultyBeIncreased())
+            {
+                if (!increasedMathLevel) 
+                {
+                    Data.Profile.IncreaseMathDifficulty();
+                    increasedMathLevel = true;
+                }
+                increasedLevelText.gameObject.SetActive(true);
+
+            }
             yield return new WaitForSeconds(3);
             endText.gameObject.SetActive(false);
             pointsText.gameObject.SetActive(false);
+            avgPointsText.gameObject.SetActive(false);
+            increasedLevelText.gameObject.SetActive(false);
+
+            if (increasedMathLevel)
+            {
+                Data.Profile.ResetScore();
+            }
             Data.Profile.end = false;
             SceneManager.LoadScene("Menu");
             Data.Profile.end = false;

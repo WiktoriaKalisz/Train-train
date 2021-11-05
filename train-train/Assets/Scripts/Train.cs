@@ -17,6 +17,7 @@ public class Train : MonoBehaviour
     public GameObject move;
     public GameObject move2;
     public AudioSource ridingSound;
+    public UnityEngine.Audio.AudioMixer audioMixer;
     public Texture2D driver { get { return driverImage.sprite.texture; } set { driverImage.sprite = Sprite.Create(value, new Rect(0, 0, value.width, value.height), new Vector2(0, 0)); } }
     public Seat FreeSeat()
     {
@@ -28,6 +29,7 @@ public class Train : MonoBehaviour
     public float DecelerationSpeed = 6;
     public float BreakSpeed = 20;
     public float SpeedLimit = 500;
+
 
     private float _speed = 0;
     public float Speed
@@ -46,9 +48,14 @@ public class Train : MonoBehaviour
     public void Accelerate()
     {
         Speed += Time.deltaTime * AccelerationSpeed;
-        if (!ridingSound.isPlaying)
+        float tmp;
+        var unused = audioMixer.GetFloat("musicVolume", out tmp);
+        if (tmp > -80.0f)
         {
-            ridingSound.Play();
+            if (!ridingSound.isPlaying)
+            {
+                ridingSound.Play();
+            }
         }
     }
 
