@@ -115,6 +115,7 @@ public class Level {
 
 public class World : MonoBehaviour {
 
+    public World world;
     public Level level;
     public Station station;
     public Train train;
@@ -123,6 +124,7 @@ public class World : MonoBehaviour {
     public Text back;
     public Text startText;
     public Text endText;
+    public Text backToMenuText;
     public Text pointsText;
     public Text avgPointsText;
     public Text increasedLevelText;
@@ -165,7 +167,9 @@ public class World : MonoBehaviour {
 
     }
     private void Start() {
+        Data.Profile.left = false;
         Input.multiTouchEnabled = false;
+        Data.Profile.end = false;
         var passengers = Data.Profile.passengers.selected();
         var symbols = Data.Profile.Symbols;
         level = new Level(station, Data.Profile.doesEnd, Data.Profile.limitPassengers, train, symbols, passengers, Data.Profile.calmBackground, Data.Profile.leftHand);
@@ -176,6 +180,7 @@ public class World : MonoBehaviour {
         avgPointsText.gameObject.SetActive(false);
         startText.gameObject.SetActive(false);
         endText.gameObject.SetActive(false);
+        backToMenuText.gameObject.SetActive(false);
         increasedLevelText.gameObject.SetActive(false);
         train.move.gameObject.SetActive(Data.Profile.allowLabels && Data.Profile.leftHand);
         train.move2.gameObject.SetActive(Data.Profile.allowLabels && !Data.Profile.leftHand);
@@ -368,8 +373,10 @@ public class World : MonoBehaviour {
             }
             pointsText.text = score.ToString();
             avgPointsText.text = Data.Profile.avgScoreOnCurrentGameMode.ToString(); 
-            yield return new WaitForSeconds(1);           
+            yield return new WaitForSeconds(1);
+            chooseText.gameObject.SetActive(false);
             endText.gameObject.SetActive(true);
+            backToMenuText.gameObject.SetActive(true);
             pointsText.gameObject.SetActive(true);
             avgPointsText.gameObject.SetActive(true);
             if (Data.Profile.avgScoreOnCurrentGameMode > 70.0f && Data.Profile.numberOfGamesOnCurrentGameMode >= 10 && Data.Profile.canMathDifficultyBeIncreased())
@@ -382,7 +389,7 @@ public class World : MonoBehaviour {
                 increasedLevelText.gameObject.SetActive(true);
 
             }
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(10);
             endText.gameObject.SetActive(false);
             pointsText.gameObject.SetActive(false);
             avgPointsText.gameObject.SetActive(false);

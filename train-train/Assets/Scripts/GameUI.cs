@@ -7,6 +7,6 @@ public class GameUI : MonoBehaviour {
 
     public void onBackClick()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);        
     }
 }
