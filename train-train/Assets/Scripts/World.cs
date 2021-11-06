@@ -31,9 +31,10 @@ public class Level {
                 if (limitPassengers && toSpawn-- <= 0) {
                     continue;
                 }
-                maxPointsToEarn += 2;
+                
                 var p = getNextPassenger(firstStation);
                 if (p != null) {
+                    maxPointsToEarn += 2;
                     seat.Place(p);
                 }
             }
@@ -93,10 +94,11 @@ public class Level {
                 if (Data.Profile.limitPassengers && toSpawn-- <= 0) {
                     continue;
                 }
-
+               
                 var p = getNextPassenger(newstation);
                 if (p != null) {
                     seat.Place(p);
+                    this.maxPointsToEarn += 2;
                 }
             }
 
@@ -141,7 +143,6 @@ public class World : MonoBehaviour {
     private void Awake()
     {
 
-        audioMixer.SetFloat("Master", 20f);
         audioMixer.SetFloat("soundsVolume", Data.Profile.sounds);
         audioMixer.SetFloat("musicVolume", Data.Profile.music);
         float tmp;

@@ -44,7 +44,6 @@ public class Train : MonoBehaviour
     private void Awake()
     {
         ridingSound = GetComponent<AudioSource>();
-        audioMixer.SetFloat("Master", 20f);
         audioMixer.SetFloat("soundsVolume", Data.Profile.sounds);
         audioMixer.SetFloat("musicVolume", Data.Profile.music);
     }

@@ -333,6 +333,29 @@ public class Drivers : Pickable
     }
 }
 
+public static class ExtensionMethod
+{
+    public static Texture2D DeCompress(this Texture2D source)
+    {
+        RenderTexture renderTex = RenderTexture.GetTemporary(
+                    source.width,
+                    source.height,
+                    0,
+                    RenderTextureFormat.Default,
+                    RenderTextureReadWrite.Linear);
+
+        Graphics.Blit(source, renderTex);
+        RenderTexture previous = RenderTexture.active;
+        RenderTexture.active = renderTex;
+        Texture2D readableText = new Texture2D(source.width, source.height);
+        readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+        readableText.Apply();
+        RenderTexture.active = previous;
+        RenderTexture.ReleaseTemporary(renderTex);
+        return readableText;
+    }
+}
+
 [Serializable]
 public class STexture2D
 {
@@ -375,7 +398,7 @@ public class STexture2D
             }
 
             var file = File.Open(path, FileMode.Create);
-            new BinaryFormatter().Serialize(file, _texture.EncodeToPNG());
+            new BinaryFormatter().Serialize(file, _texture.DeCompress().EncodeToPNG());
             file.Close();
         }
     }
@@ -706,13 +729,13 @@ public class Profile
 
         {
             var a = new Symbol("carrot");
-            var l = new List<Symbol>() { new Symbol(Resources.Load<Texture2D>("Images/carrot")) };
+            var l = new List<Symbol>() { new Symbol(Resources.Load<Texture2D>("Images/carrot2")) };
             var map = new SymbolMapping(a, l);
             exampleEnglish.Add(map);
         }
 
         {
-            var a = new Symbol(Resources.Load<Texture2D>("Images/cherries"));
+            var a = new Symbol(Resources.Load<Texture2D>("Images/cherries2"));
             var l = new List<Symbol>() { new Symbol("cherries") };
             var map = new SymbolMapping(a, l);
             exampleEnglish.Add(map);
@@ -720,14 +743,14 @@ public class Profile
 
         {
             var a = new Symbol("watermelon");
-            var l = new List<Symbol>() { new Symbol(Resources.Load<Texture2D>("Images/watermelon")) };
+            var l = new List<Symbol>() { new Symbol(Resources.Load<Texture2D>("Images/watermelon2")) };
             var map = new SymbolMapping(a, l);
             exampleEnglish.Add(map);
         }
 
         {
             var a = new Symbol("grapes");
-            var l = new List<Symbol>() { new Symbol(Resources.Load<Texture2D>("Images/grapes")) };
+            var l = new List<Symbol>() { new Symbol(Resources.Load<Texture2D>("Images/grapes2")) };
             var map = new SymbolMapping(a, l);
             exampleEnglish.Add(map);
         }
@@ -741,14 +764,14 @@ public class Profile
     public static Passengers defaultPassengers()
     {
         var passengers = new Passengers();
-        foreach (var path in new List<string>() { "Images/Bee", "Images/Monkey", "Images/Mouse" })
+        foreach (var path in new List<string>() { "Images/Bee2", "Images/Monkey2", "Images/Mouse2", "Images/cat", "Images/Sloth" })
         {
             var texture = Resources.Load<Texture2D>(path);
             passengers.Add(texture);
             if(PassengersAnimals == true) passengers.Select(texture);
         }
 
-        foreach (var path in new List<string>() { "Images/businessman", "Images/doctor", "Images/girl", "Images/girl2", "Images/girl3", "Images/man2", "Images/student", "Images/woman", })
+        foreach (var path in new List<string>() { "Images/businessman2", "Images/doctor2", "Images/girl22", "Images/man22", "Images/man_2", "Images/student2", "Images/woman2", })
         {
             var texture = Resources.Load<Texture2D>(path);
             passengers.Add(texture);
@@ -762,8 +785,8 @@ public class Profile
     {
         defaultTextureSymbols().AllTextures().ForEach(t => customMappings.addMatchee(new Symbol(t)));
 
-        var mapping = new SymbolMapping(Resources.Load<Texture2D>("Images/businessman"));
-        customMappings.add(new SymbolMapping(Resources.Load<Texture2D>("Images/doctor")));
+        var mapping = new SymbolMapping(Resources.Load<Texture2D>("Images/businessman2"));
+        customMappings.add(new SymbolMapping(Resources.Load<Texture2D>("Images/doctor2")));
         customMappings.add(mapping);
         customMappings.select(mapping);
 
@@ -791,8 +814,8 @@ public class Profile
     private static Drivers defaultDrivers()
     {
         var drivers = new Drivers();
-        var driver1 = Resources.Load<Texture2D>("Images/girl3");
-        var driver2 = Resources.Load<Texture2D>("Images/driver");
+        var driver1 = Resources.Load<Texture2D>("Images/girl22");
+        var driver2 = Resources.Load<Texture2D>("Images/driver2");
         drivers.Add(driver1);
         drivers.Add(driver2);
         drivers.Select(driver2);
@@ -818,9 +841,9 @@ public class Profile
 
     private static TextureSymbols defaultTextureSymbols()
     {
-        var paths = new List<string>() {"Images/carrot", "Images/cherries", "Images/grapes", "Images/watermelon", "Images/raspberry",
-                                         "Images/gamepad", "Images/pyramid", "Images/rocket", "Images/skateboard", "Images/spinner",
-                                         "Images/gift" };
+        var paths = new List<string>() {"Images/carrot2", "Images/cherries2", "Images/grapes2", "Images/watermelon2", "Images/raspberry2",
+                                         "Images/gamepad2", "Images/pyramid2", "Images/rocket2", "Images/skateboard2", "Images/spinner",
+                                         "Images/gift2" };
 
         var textureSymbols = new TextureSymbols();
         paths.ForEach(t => textureSymbols.Add(Resources.Load<Texture2D>(t)));
