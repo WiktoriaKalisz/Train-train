@@ -444,7 +444,7 @@ public class Profile
     public bool allowLabels = true;
     public bool calmBackground = false;
     public bool leftHand = false;
-    public int colorScheme = 1;
+    public int colorScheme = 0;
     public bool end = false;
     public bool left = false;
     public bool seatActive = false;

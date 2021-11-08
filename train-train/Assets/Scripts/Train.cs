@@ -52,7 +52,7 @@ public class Train : MonoBehaviour
         Speed += Time.deltaTime * AccelerationSpeed;
         float tmp;
         var unused = audioMixer.GetFloat("soundsVolume", out tmp);
-        if (tmp >= -80.0f)
+        if (tmp >= -30.0f)
         {
             if (!ridingSound.isPlaying)
             {

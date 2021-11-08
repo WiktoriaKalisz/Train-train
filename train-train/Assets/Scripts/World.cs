@@ -149,7 +149,7 @@ public class World : MonoBehaviour {
         audioMixer.SetFloat("musicVolume", Data.Profile.music);
         float tmp;
         var unused = audioMixer.GetFloat("musicVolume", out tmp);
-        if (tmp <= -80.0f)
+        if (tmp <= -30.0f)
         {
             if (music.isPlaying)
             {
