@@ -12,10 +12,11 @@ public enum SymbolType
     NumberRange,
     Letters,
     ExampleMath,
-    ElementaryMath,
-    BeginnerMath, 
-    AdvancedMath, 
-    ExpertMath,
+    Class1Math,
+    Class2Math, 
+    Class3Math, 
+    Class4Math,
+    Class5Math,
     ExampleEnglish,
     CustomMapping
 };
@@ -456,10 +457,11 @@ public class Profile
     public Letters letters;
     public SymbolMappings customMappings = new SymbolMappings();
     public List<SymbolMapping> exampleMath;
-    public List<SymbolMapping> elementaryMath;
-    public List<SymbolMapping> beginnerMath;
-    public List<SymbolMapping> advancedMath;
-    public List<SymbolMapping> expertMath;
+    public List<SymbolMapping> class1Math;
+    public List<SymbolMapping> class2Math;
+    public List<SymbolMapping> class3Math;
+    public List<SymbolMapping> class4Math;
+    public List<SymbolMapping> class5Math;
     public List<SymbolMapping> exampleEnglish;
 
     public double avgScoreOnCurrentGameMode = 0.0f;
@@ -474,12 +476,18 @@ public class Profile
     }
     public bool canMathDifficultyBeIncreased()
     {
-        return (this.symbolType >= SymbolType.ElementaryMath && this.symbolType < SymbolType.ExpertMath);
+        return (this.symbolType >= SymbolType.Class1Math && this.symbolType < SymbolType.Class5Math);
     }
     public void IncreaseMathDifficulty()
     {
-        
-        this.symbolType += 1;
+       
+            this.symbolType += 1;
+        if (this.symbolType >= SymbolType.Class4Math)
+        {
+            this.isAnimalsOn = false;
+            PassengersAnimals = false;
+            this.passengers = defaultPassengers();
+        }
     }
     public List<SymbolMapping> Symbols
     {
@@ -505,14 +513,16 @@ public class Profile
                     return letterMappings;
                 case SymbolType.ExampleMath:
                     return exampleMath.ToList();
-                case SymbolType.ElementaryMath:
-                    return elementaryMath.ToList();
-                case SymbolType.BeginnerMath:
-                    return beginnerMath.ToList();
-                case SymbolType.AdvancedMath:
-                    return advancedMath.ToList();
-                case SymbolType.ExpertMath:
-                    return expertMath.ToList();
+                case SymbolType.Class1Math:
+                    return class1Math.ToList();
+                case SymbolType.Class2Math:
+                    return class2Math.ToList();
+                case SymbolType.Class3Math:
+                    return class3Math.ToList();
+                case SymbolType.Class4Math:
+                    return class4Math.ToList();
+                case SymbolType.Class5Math:
+                    return class5Math.ToList();
                 case SymbolType.ExampleEnglish:
                     return exampleEnglish.ToList();
                 case SymbolType.CustomMapping:
@@ -567,162 +577,201 @@ public class Profile
 
         return exampleMath;
     }
-    /* ONLY +- */
-    public static List<SymbolMapping> elementaryMathMappings()
+    /* ONLY +- 1-10 */
+    public static List<SymbolMapping> class1MathMappings()
     {
         var elementaryMath = new List<SymbolMapping>();
 
         {
+            var a = new Symbol("2");
+            var l = new List<Symbol>() { new Symbol("1+1"), new Symbol("2-0"), new Symbol("2+0"), new Symbol("3-1"), new Symbol("4-2"), new Symbol("5-3"), new Symbol("6-4"), new Symbol("7-5") };
+            var map = new SymbolMapping(a, l);
+            elementaryMath.Add(map);
+        }
+
+        {
             var a = new Symbol("5");
-            var l = new List<Symbol>() { new Symbol("1+4"), new Symbol("10-5"), new Symbol("2+3"), new Symbol("6-1"), new Symbol("7-2"), new Symbol("8-3"), new Symbol("9+4"), new Symbol("5+0") };
+            var l = new List<Symbol>() { new Symbol("2+3"), new Symbol("1+4"), new Symbol("5+0"), new Symbol("6-1"), new Symbol("7-2"), new Symbol("8-3"), new Symbol("9-4"), new Symbol("10-5") };
             var map = new SymbolMapping(a, l);
             elementaryMath.Add(map);
         }
 
         {
-            var a = new Symbol("12");
-            var l = new List<Symbol>() { new Symbol("6+6"), new Symbol("10+2"), new Symbol("20-8"), new Symbol("1+11"), new Symbol("5+7"), new Symbol("4+8"), new Symbol("3+9"), new Symbol("15-3") };
+            var a = new Symbol("7");
+            var l = new List<Symbol>() { new Symbol("0+7"), new Symbol("2+5"), new Symbol("10-3"), new Symbol("9-2"), new Symbol("3+4"), new Symbol("1+6"), new Symbol("8-1"), new Symbol("7-0") };
             var map = new SymbolMapping(a, l);
             elementaryMath.Add(map);
         }
 
         {
-            var a = new Symbol("15");
-            var l = new List<Symbol>() { new Symbol("8+7"), new Symbol("10+5"), new Symbol("20-5"), new Symbol("4+11"), new Symbol("13+2"), new Symbol("10+5"), new Symbol("6+9"), new Symbol("15-0") };
+            var a = new Symbol("9");
+            var l = new List<Symbol>() { new Symbol("4+5"), new Symbol("3+6"), new Symbol("2+7"), new Symbol("1+8"), new Symbol("0+9"), new Symbol("10-1"), new Symbol("9-0"), new Symbol("6+3") };
             var map = new SymbolMapping(a, l);
             elementaryMath.Add(map);
         }
 
         {
-            var a = new Symbol("20");
-            var l = new List<Symbol>() { new Symbol("10+10"), new Symbol("18+2"), new Symbol("20-0"), new Symbol("1+19"), new Symbol("5+15"), new Symbol("21-1"), new Symbol("30-9"), new Symbol("26-6") };
-            var map = new SymbolMapping(a, l);
-            elementaryMath.Add(map);
-        }
-
-        {
-            var a = new Symbol("30");
-            var l = new List<Symbol>() { new Symbol("15+15"), new Symbol("10+20"), new Symbol("38-8"), new Symbol("42-12"), new Symbol("5+7+18"), new Symbol("40-15+5"), new Symbol("11+11+8"), new Symbol("10+10+10") };
+            var a = new Symbol("10");
+            var l = new List<Symbol>() { new Symbol("5+5"), new Symbol("4+6"), new Symbol("3+7"), new Symbol("2+8"), new Symbol("1+9"), new Symbol("0+10"), new Symbol("10-0"), new Symbol("10+0") };
             var map = new SymbolMapping(a, l);
             elementaryMath.Add(map);
         }
         return elementaryMath;
     }
-    public static List<SymbolMapping> beginnerMathMappings()
+    /*dodawanie i odejmowanie w zakresie do 100
+    mnożenie i dzielenie w zakresie do 50 
+    */
+    public static List<SymbolMapping> class2MathMappings()
     {
+
         var beginnerMath = new List<SymbolMapping>();
         {
-            var a = new Symbol("40");
-            var l = new List<Symbol>() { new Symbol("15+25"), new Symbol("20+20"), new Symbol("48-8"), new Symbol("42-2"), new Symbol("15+7+18"), new Symbol("21+37-18"), new Symbol("11+21+8"), new Symbol("10+10+10+10") };
+            var a = new Symbol("10");
+            var l = new List<Symbol>() { new Symbol("2*5"), new Symbol("1*10"), new Symbol("20/2"), new Symbol("40/4"), new Symbol("50/5"), new Symbol("30/3"), new Symbol("99-89"), new Symbol("45-35") };
             var map = new SymbolMapping(a, l);
             beginnerMath.Add(map);
         }
         {
-            var a = new Symbol("60");
-            var l = new List<Symbol>() { new Symbol("35+25"), new Symbol("10+20+30"), new Symbol("35-8+33"), new Symbol("42+12+6"), new Symbol("21+37+2"), new Symbol("40+15+5"), new Symbol("77-11-6"), new Symbol("20+20+20") };
+            var a = new Symbol("20");
+            var l = new List<Symbol>() { new Symbol("15+5"), new Symbol("20+0"), new Symbol("28-8"), new Symbol("22-2"), new Symbol("2*10"), new Symbol("4*5"), new Symbol("40/2"), new Symbol("1*20") };
+            var map = new SymbolMapping(a, l);
+            beginnerMath.Add(map);
+        }
+        {
+            var a = new Symbol("40");
+            var l = new List<Symbol>() { new Symbol("15+25"), new Symbol("20+20"), new Symbol("48-8"), new Symbol("42-2"), new Symbol("2*20"), new Symbol("4*10"), new Symbol("8*5"), new Symbol("1*40") };
             var map = new SymbolMapping(a, l);
             beginnerMath.Add(map);
         }
         {
             var a = new Symbol("80");
-            var l = new List<Symbol>() { new Symbol("40+40"), new Symbol("28+52"), new Symbol("13+9+21+37"), new Symbol("47-12+59-14"), new Symbol("16+24+40"), new Symbol("47+13+36-16"), new Symbol("19-13+68+6"), new Symbol("91-23+5+7") };
+            var l = new List<Symbol>() { new Symbol("40+40"), new Symbol("28+52"), new Symbol("35+25"), new Symbol("9+71"), new Symbol("91-11"), new Symbol("100-20"), new Symbol("94-14"), new Symbol("76+4") };
             var map = new SymbolMapping(a, l);
             beginnerMath.Add(map);
         }
         {
             var a = new Symbol("100");
-            var l = new List<Symbol>() { new Symbol("50+50"), new Symbol("23+47+30"), new Symbol("13+71+16"), new Symbol("82-61+79"), new Symbol("21+37+42"), new Symbol("73-8+43-8"), new Symbol("24+19-17+74"), new Symbol("121-23+2") };
+            var l = new List<Symbol>() { new Symbol("50+50"), new Symbol("11+89"), new Symbol("23+77"), new Symbol("13+87"), new Symbol("43+57"), new Symbol("34+66"), new Symbol("96+4"), new Symbol("18+82") };
             var map = new SymbolMapping(a, l);
             beginnerMath.Add(map);
         }
 
         return beginnerMath;
     }
-    /*  +-*: */
-    public static List<SymbolMapping> advancedMathMappings()
+    /*dodawanie, odejmowanie, mnożenie i dzielenie  w zakresie 100. */
+    public static List<SymbolMapping> class3MathMappings()
     {
         var advancedMath = new List<SymbolMapping>();
 
         {
-            var a = new Symbol("5");
-            var l = new List<Symbol>() { new Symbol("5*1"), new Symbol("2*5-5"), new Symbol("15/3"), new Symbol("2*3-1") , new Symbol("2*2+1") , new Symbol("20/4") };
+            var a = new Symbol("20");
+            var l = new List<Symbol>() { new Symbol("80/4"), new Symbol("100/5"), new Symbol("40/2"), new Symbol("2*10"), new Symbol("100-80") };
             var map = new SymbolMapping(a, l);
             advancedMath.Add(map);
         }
-
         {
-            var a = new Symbol("12");
-            var l = new List<Symbol>() { new Symbol("2*6"), new Symbol("1*10+2"), new Symbol("3*4"), new Symbol("21/7 + 3*3"), new Symbol("3*5 - 3") };
+            var a = new Symbol("50");
+            var l = new List<Symbol>() { new Symbol("5*10"), new Symbol("100/2"), new Symbol("2*25"), new Symbol("50/1"), new Symbol("50*1") };
             var map = new SymbolMapping(a, l);
             advancedMath.Add(map);
         }
-
         {
-            var a = new Symbol("40");
-            var l = new List<Symbol>() { new Symbol("4*5*2"), new Symbol("8*5"), new Symbol("160/4"), new Symbol("4*10"), new Symbol("2*5 + 3*9 + 3") };
+            var a = new Symbol("60");
+            var l = new List<Symbol>() { new Symbol("3*20"), new Symbol("30*2"), new Symbol("36+24"), new Symbol("6*10"), new Symbol("99-39") };
             var map = new SymbolMapping(a, l);
             advancedMath.Add(map);
         }
-
+        
         {
             var a = new Symbol("100");
-            var l = new List<Symbol>() { new Symbol("10*10"), new Symbol("4*5*5"), new Symbol("11*11 - 3*7"), new Symbol("2*4*5 + 3*4*5"), new Symbol("7*8 - 3*7 + 13*5") };
+            var l = new List<Symbol>() { new Symbol("2*50"), new Symbol("4*25"), new Symbol("100/1"), new Symbol("64+36"), new Symbol("20*5") };
             var map = new SymbolMapping(a, l);
             advancedMath.Add(map);
         }
 
-        {
-            var a = new Symbol("200");
-            var l = new List<Symbol>() { new Symbol("10*20"), new Symbol("8*5*5"), new Symbol("11*22 - 6*7"), new Symbol("4*4*5 + 6*4*5"), new Symbol("14*8 - 6*7 + 26*5") };
-            var map = new SymbolMapping(a, l);
-            advancedMath.Add(map);
-        }
 
         return advancedMath;
     }
-    /*+-*:^*/
-    public static List<SymbolMapping> expertMathMappings()
+    /*dodawanie, odejmowanie, mnożenie i dzielenie  w zakresie 100 + zapisywanie liczb w postaci potęg*/
+    public static List<SymbolMapping> class4MathMappings()
     {
         var expertMath = new List<SymbolMapping>();
 
-        {
-            var a = new Symbol("8");
-            var l = new List<Symbol>() { new Symbol("2^3"), new Symbol("2^2 + 2^2"), new Symbol("3^2 - 1"), new Symbol("2* 2^2"), new Symbol("4^2 / 2") };
-            var map = new SymbolMapping(a, l);
-            expertMath.Add(map);
-        }
-
-        {
-            var a = new Symbol("32");
-            var l = new List<Symbol>() { new Symbol("2^5"), new Symbol("2^4 + 4 * 2^2"), new Symbol("3^3 + 5^1"), new Symbol("1000^0 + 5^2 + 7^1"), new Symbol("8^2 / 2") };
-            var map = new SymbolMapping(a, l);
-            expertMath.Add(map);
-        }
 
         {
             var a = new Symbol("25");
-            var l = new List<Symbol>() { new Symbol("5^2"), new Symbol("3 * 2^3 + 7^0"), new Symbol("3^2 - 1"), new Symbol("2* 2^2"), new Symbol("4^2 / 2") };
+            var l = new List<Symbol>() { new Symbol("5^2"), new Symbol("100/4"), new Symbol("25^1"), new Symbol("75/3"), new Symbol("50/2") };
             var map = new SymbolMapping(a, l);
             expertMath.Add(map);
         }
-
+        {
+            var a = new Symbol("32");
+            var l = new List<Symbol>() { new Symbol("2^5"), new Symbol("4*8"), new Symbol("2*16"), new Symbol("28+4"), new Symbol("64/2") };
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
         {
             var a = new Symbol("81");
-            var l = new List<Symbol>() { new Symbol("9^2"), new Symbol("3^4"), new Symbol("10^2 - 4^2 - 3^1"), new Symbol("3* 3^3"), new Symbol("3^5 / 3") };
+            var l = new List<Symbol>() { new Symbol("9^2"), new Symbol("3^4"), new Symbol("9*9"), new Symbol("81^1"), new Symbol("27*3") };
             var map = new SymbolMapping(a, l);
             expertMath.Add(map);
         }
 
         {
             var a = new Symbol("100");
-            var l = new List<Symbol>() { new Symbol("10^2"), new Symbol("2^2 * 5^2"), new Symbol("11^2 - 5^2 + 2^2 "), new Symbol("4* 5^2"), new Symbol("5^3 - 5^2") };
+            var l = new List<Symbol>() { new Symbol("10^2"), new Symbol("4*25"), new Symbol("2*50"), new Symbol("1*100"), new Symbol("100/1") };
             var map = new SymbolMapping(a, l);
             expertMath.Add(map);
         }
 
         return expertMath;
     }
+    /*dodawanie, odejmowanie, mnożenie i dzielenie  w zakresie >100
+    mnożenie liczb:
+    dwucyfrowych przez jednocyfrowe powyżej 100
+    trzycyfrowych przez jednocyfrowe w zakresie 1000
+    */
+    public static List<SymbolMapping> class5MathMappings()
+    {
+        var expertMath = new List<SymbolMapping>();
 
+        {
+            var a = new Symbol("200");
+            var l = new List<Symbol>() { new Symbol("2*100"), new Symbol("4*50"), new Symbol("8*25"), new Symbol("40*5"), new Symbol("1000/5") };
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        {
+            var a = new Symbol("400");
+            var l = new List<Symbol>() { new Symbol("4*100"), new Symbol("2*200"), new Symbol("40*10"), new Symbol("20^2"), new Symbol("20*20") };
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        {
+            var a = new Symbol("600");
+            var l = new List<Symbol>() { new Symbol("6*100"), new Symbol("3*200"), new Symbol("4*150"), new Symbol("8*75"), new Symbol("40*15") };
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        {
+            var a = new Symbol("800");
+            var l = new List<Symbol>() { new Symbol("8*100"), new Symbol("4*200"), new Symbol("2*400"), new Symbol("20*40"), new Symbol("10*80") };
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        {
+            var a = new Symbol("1000");
+            var l = new List<Symbol>() { new Symbol("2*500"), new Symbol("4*250"), new Symbol("8*125") };
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        return expertMath;
+    }
     public static List<SymbolMapping> exampleEnglishMappings()
     {
         var exampleEnglish = new List<SymbolMapping>();
@@ -803,14 +852,13 @@ public class Profile
         letters = defaultLetters();
         customMappings = defaultCustomMappings();
         exampleMath = exampleMathMappings();
-        elementaryMath = elementaryMathMappings();
-        beginnerMath = beginnerMathMappings();
-        advancedMath = advancedMathMappings();
-        expertMath = expertMathMappings();
+        class1Math = class1MathMappings();
+        class2Math = class2MathMappings();
+        class3Math = class3MathMappings();
+        class4Math = class4MathMappings();
         exampleEnglish = exampleEnglishMappings();
         
     }
-
     private static Drivers defaultDrivers()
     {
         var drivers = new Drivers();
@@ -863,14 +911,16 @@ public class Profile
                 return "Letters";
             case SymbolType.ExampleMath:
                 return "Math Mixer";
-            case SymbolType.ElementaryMath:
-                return "Math Elementary";
-            case SymbolType.BeginnerMath:
-                return "Math Beginner";
-            case SymbolType.AdvancedMath:
-                return "Math Advanced";
-            case SymbolType.ExpertMath:
-                return "Math Expert";
+            case SymbolType.Class1Math:
+                return "Math 1st class";
+            case SymbolType.Class2Math:
+                return "Math 2nd class";
+            case SymbolType.Class3Math:
+                return "Math 3rd class";
+            case SymbolType.Class4Math:
+                return "Math 4th class";
+            case SymbolType.Class5Math:
+                return "Math 5th class";
             case SymbolType.ExampleEnglish:
                 return "English";
             case SymbolType.CustomMapping:

@@ -20,7 +20,6 @@ public class Settings : MonoBehaviour
     public Toggle allowLabels;
     public Toggle calmbackground;
     public Toggle leftHand;
-    public Toggle passengersAnimals;
     public TMP_Dropdown symbolType;
     public TMP_Dropdown colorScheme;
     public TMP_InputField inputFieldFromDigits, inputFieldToDigits;
@@ -133,6 +132,8 @@ public class Settings : MonoBehaviour
     public void Symbol_type_selected(int newValue)
     {
         if (Data.Profile.symbolType != (SymbolType)newValue) Data.Profile.ResetScore();
+        if ((SymbolType)newValue <= SymbolType.Class5Math && (SymbolType)newValue > SymbolType.Class3Math) this.setPassengersAnimalsProfileValue(false);
+        else this.setPassengersAnimalsProfileValue(true);
         Data.Profile.symbolType = (SymbolType)newValue;
         ShowSymbolEditFields();
         SaveInputFields();
@@ -186,7 +187,7 @@ public class Settings : MonoBehaviour
     {
         Data.Profile.leftHand = newValue;
     }
-    public void OnTogglePassengersAnimalsdClick(bool newValue)
+    public void setPassengersAnimalsProfileValue(bool newValue)
     {
         Profile.PassengersAnimals = newValue;
         Data.Profile.isAnimalsOn = newValue;
@@ -211,6 +212,5 @@ public class Settings : MonoBehaviour
         musicSlider.value = Data.Profile.music;
         soundsSlider.value = Data.Profile.sounds;
         colorScheme.value = Data.Profile.colorScheme;
-        passengersAnimals.isOn = Data.Profile.isAnimalsOn;
     }
 }
