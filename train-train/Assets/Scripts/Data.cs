@@ -16,6 +16,7 @@ public enum SymbolType
     Class2Math, 
     Class3Math, 
     Class4Math,
+    Class45Math,
     Class5Math,
     ExampleEnglish,
     CustomMapping
@@ -461,6 +462,7 @@ public class Profile
     public List<SymbolMapping> class2Math;
     public List<SymbolMapping> class3Math;
     public List<SymbolMapping> class4Math;
+    public List<SymbolMapping> class45Math;
     public List<SymbolMapping> class5Math;
     public List<SymbolMapping> exampleEnglish;
 
@@ -476,18 +478,11 @@ public class Profile
     }
     public bool canMathDifficultyBeIncreased()
     {
-        return (this.symbolType >= SymbolType.Class1Math && this.symbolType < SymbolType.Class5Math);
+        return ((this.symbolType >= SymbolType.Class1Math && this.symbolType < SymbolType.Class3Math )||(this.symbolType >= SymbolType.Class4Math && this.symbolType < SymbolType.Class5Math));
     }
     public void IncreaseMathDifficulty()
     {
-       
             this.symbolType += 1;
-        if (this.symbolType >= SymbolType.Class4Math)
-        {
-            this.isAnimalsOn = false;
-            PassengersAnimals = false;
-            this.passengers = defaultPassengers();
-        }
     }
     public List<SymbolMapping> Symbols
     {
@@ -521,6 +516,8 @@ public class Profile
                     return class3Math.ToList();
                 case SymbolType.Class4Math:
                     return class4Math.ToList();
+                case SymbolType.Class45Math:
+                    return class45Math.ToList();
                 case SymbolType.Class5Math:
                     return class5Math.ToList();
                 case SymbolType.ExampleEnglish:
@@ -726,6 +723,41 @@ public class Profile
 
         return expertMath;
     }
+
+    public static List<SymbolMapping> class45MathMappings()
+    {
+        var expertMath = new List<SymbolMapping>();
+
+        {
+            var a = new Symbol("120");
+            var l = new List<Symbol>() { new Symbol("2*60"), new Symbol("4*30"), new Symbol("240/2"), new Symbol("12*10")};
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        {
+            var a = new Symbol("150");
+            var l = new List<Symbol>() { new Symbol("75*2"), new Symbol("5*30"), new Symbol("15*10"), new Symbol("300/2")};
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        {
+            var a = new Symbol("400");
+            var l = new List<Symbol>() { new Symbol("4*100"), new Symbol("2*200"), new Symbol("40*10"), new Symbol("20^2"), new Symbol("20*20") };
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        {
+            var a = new Symbol("500");
+            var l = new List<Symbol>() { new Symbol("2*250"), new Symbol("4*125"), new Symbol("50*10"), new Symbol("20*25") };
+            var map = new SymbolMapping(a, l);
+            expertMath.Add(map);
+        }
+
+        return expertMath;
+    }
     /*dodawanie, odejmowanie, mnożenie i dzielenie  w zakresie >100
     mnożenie liczb:
     dwucyfrowych przez jednocyfrowe powyżej 100
@@ -738,13 +770,6 @@ public class Profile
         {
             var a = new Symbol("200");
             var l = new List<Symbol>() { new Symbol("2*100"), new Symbol("4*50"), new Symbol("8*25"), new Symbol("40*5"), new Symbol("1000/5") };
-            var map = new SymbolMapping(a, l);
-            expertMath.Add(map);
-        }
-
-        {
-            var a = new Symbol("400");
-            var l = new List<Symbol>() { new Symbol("4*100"), new Symbol("2*200"), new Symbol("40*10"), new Symbol("20^2"), new Symbol("20*20") };
             var map = new SymbolMapping(a, l);
             expertMath.Add(map);
         }
@@ -856,6 +881,8 @@ public class Profile
         class2Math = class2MathMappings();
         class3Math = class3MathMappings();
         class4Math = class4MathMappings();
+        class45Math = class45MathMappings();
+        class5Math = class5MathMappings();
         exampleEnglish = exampleEnglishMappings();
         
     }
@@ -912,15 +939,17 @@ public class Profile
             case SymbolType.ExampleMath:
                 return "Math Mixer";
             case SymbolType.Class1Math:
-                return "Math 1st class";
+                return "Math 1-3 Easy";
             case SymbolType.Class2Math:
-                return "Math 2nd class";
+                return "Math 1-3 Medium";
             case SymbolType.Class3Math:
-                return "Math 3rd class";
+                return "Math 1-3 Hard";
             case SymbolType.Class4Math:
-                return "Math 4th class";
+                return "Math 4-5 Easy";
+            case SymbolType.Class45Math:
+                return "Math 4-5 Medium";
             case SymbolType.Class5Math:
-                return "Math 5th class";
+                return "Math 4-5 Hard";
             case SymbolType.ExampleEnglish:
                 return "English";
             case SymbolType.CustomMapping:
