@@ -838,14 +838,14 @@ public class Profile
     public static Passengers defaultPassengers()
     {
         var passengers = new Passengers();
-        foreach (var path in new List<string>() { "Images/Bee2", "Images/Monkey2", "Images/Mouse2", "Images/cat", "Images/Sloth" })
+        foreach (var path in new List<string>() { "Images/Bee2", "Images/Monkey2", "Images/Mouse2", "Images/cat", "Images/Sloth", "Images/unicorn" })
         {
             var texture = Resources.Load<Texture2D>(path);
             passengers.Add(texture);
             if(PassengersAnimals == true) passengers.Select(texture);
         }
 
-        foreach (var path in new List<string>() { "Images/businessman2", "Images/doctor2", "Images/girl22", "Images/man22", "Images/man_2", "Images/student2", "Images/woman2", })
+        foreach (var path in new List<string>() {  "Images/doctor2", "Images/girl22", "Images/man22", "Images/man_2", "Images/student2", "Images/woman2", })
         {
             var texture = Resources.Load<Texture2D>(path);
             passengers.Add(texture);
@@ -859,7 +859,7 @@ public class Profile
     {
         defaultTextureSymbols().AllTextures().ForEach(t => customMappings.addMatchee(new Symbol(t)));
 
-        var mapping = new SymbolMapping(Resources.Load<Texture2D>("Images/businessman2"));
+        var mapping = new SymbolMapping(Resources.Load<Texture2D>("Images/unicorn"));
         customMappings.add(new SymbolMapping(Resources.Load<Texture2D>("Images/doctor2")));
         customMappings.add(mapping);
         customMappings.select(mapping);
