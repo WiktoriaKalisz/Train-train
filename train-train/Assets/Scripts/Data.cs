@@ -284,11 +284,6 @@ public class Drivers : Pickable
 
     public void Select(Texture2D t)
     {
-        foreach (var driver in drivers)
-        {
-            driver.selected = false;
-        }
-
         var found = find(t);
         found.selected = true;
     }
@@ -311,8 +306,15 @@ public class Drivers : Pickable
         return drivers.Select(a => a.value.Texture).ToList();
     }
 
+    public List<STexture2D> countDrivers()
+    {
+        var l = drivers.FindAll(st => st.selected).Select(a => a.value).ToList();
+        return l;
+    }
+
     public Texture2D selected()
     {
+       
         var l = drivers.Find(st => st.selected);
         if (l == null) { return null; }
         return l.value;
@@ -331,7 +333,10 @@ public class Drivers : Pickable
 
     public int NumberOfSelected()
     {
-        return selected() == null ? 0 : 1;
+        if (selected() == null)
+            return 0;
+        else
+            return countDrivers().Count;
     }
 }
 
