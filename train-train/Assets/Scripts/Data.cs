@@ -843,20 +843,24 @@ public class Profile
     public static Passengers defaultPassengers()
     {
         var passengers = new Passengers();
-        foreach (var path in new List<string>() { "Images/Bee2", "Images/Monkey2", "Images/Mouse2", "Images/cat", "Images/Sloth", "Images/unicorn" })
+        if (PassengersAnimals == true)
         {
-            var texture = Resources.Load<Texture2D>(path);
-            passengers.Add(texture);
-            if(PassengersAnimals == true) passengers.Select(texture);
+            foreach (var path in new List<string>() { "Images/Bee2", "Images/Monkey2", "Images/Mouse2", "Images/cat", "Images/Sloth", "Images/unicorn" })
+            {
+                var texture = Resources.Load<Texture2D>(path);
+                passengers.Add(texture);
+                passengers.Select(texture);
+            }
         }
-
-        foreach (var path in new List<string>() {  "Images/doctor2", "Images/girl22", "Images/man22", "Images/man_2", "Images/student2", "Images/woman2", })
+        else
         {
-            var texture = Resources.Load<Texture2D>(path);
-            passengers.Add(texture);
-            if (PassengersAnimals == false) passengers.Select(texture);
+            foreach (var path in new List<string>() { "Images/doctor2", "Images/girl22", "Images/man22", "Images/man_2", "Images/student2", "Images/woman2", })
+            {
+                var texture = Resources.Load<Texture2D>(path);
+                passengers.Add(texture);
+                passengers.Select(texture);
+            }
         }
-
         return passengers;
     }
 
