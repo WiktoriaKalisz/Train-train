@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour {
 
     public void onDriverClick() {
         PicturePicker.Modify(Data.Profile.drivers);
+        Data.Profile.choosingDrivers = true;
     }
 
     public void onPassengerClick() {

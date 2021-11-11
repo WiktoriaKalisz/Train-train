@@ -453,6 +453,7 @@ public class Profile
     public bool end = false;
     public bool left = false;
     public bool seatActive = false;
+    public bool choosingDrivers = false;
 
     public Drivers drivers = new Drivers();
     public Passengers passengers = new Passengers();

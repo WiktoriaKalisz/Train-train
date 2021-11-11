@@ -38,6 +38,7 @@ public class PicturePicker : MonoBehaviour {
 
     public void BackOnClick() {
         if (!pickable.IsSelectedEnough()) { return; }
+        Data.Profile.choosingDrivers = false;
         Data.save();
         SceneManager.LoadScene(PreviousScene);
     }
@@ -47,16 +48,38 @@ public class PicturePicker : MonoBehaviour {
     }
 
     public void HandleSelectRequest(Texture2D texture, GameObject gameObject) {
-        if (isSelected(texture)) 
-            pickable.Deselect(texture);
-        else 
+
+        if (Data.Profile.choosingDrivers == true)
+        {
+
+            Data.Profile.drivers.AllTextures().ForEach(t => pickable.Deselect(t));
             pickable.Select(texture);
 
-        if (isInDeleteMode) {
-            pickable.Remove(texture);
-            Destroy(gameObject);
-        }
+            if (isInDeleteMode)
+            {
+                pickable.Remove(texture);
+                Destroy(gameObject);
+            }
 
+            var pictures = this.GetComponentsInChildren<Picture>();
+            foreach (var picture in pictures)
+            {
+                picture.Start();
+            }
+        }
+        else
+        {
+            if (isSelected(texture))
+                pickable.Deselect(texture);
+            else
+                pickable.Select(texture);
+
+            if (isInDeleteMode)
+            {
+                pickable.Remove(texture);
+                Destroy(gameObject);
+            }
+        }
         selectedCounterTextBox.text = pickable.NumberOfSelected().ToString();
     }
 
