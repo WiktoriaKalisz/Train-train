@@ -475,8 +475,8 @@ public class Profile
     public double avgScoreOnCurrentGameMode = 0.0f;
     public int numberOfGamesOnCurrentGameMode = 0;
 
-    public static bool PassengersAnimals = true;
-    public bool isAnimalsOn;
+    public static bool PassengersAnimals = true, PassengersHumans = true;
+    public bool isAnimalsOn, isHumansOn;
     public void ResetScore()
     {
         avgScoreOnCurrentGameMode = 0.0f;
@@ -853,7 +853,7 @@ public class Profile
                 passengers.Select(texture);
             }
         }
-        else
+        if(PassengersHumans == true)
         {
             foreach (var path in new List<string>() { "Images/doctor2", "Images/girl22", "Images/man22", "Images/man_2", "Images/student2", "Images/woman2", })
             {
@@ -947,7 +947,7 @@ public class Profile
             case SymbolType.Letters:
                 return "Letters";
             case SymbolType.ExampleMath:
-                return "Math Mixer";
+                return "Math Mixed";
             case SymbolType.Class1Math:
                 return "Math 1-3 Easy";
             case SymbolType.Class2Math:
@@ -998,7 +998,7 @@ public static class Data
         Profile.passengers.AllTextures();
         Profile.textureSymbols.AllTextures();
         Profile.PassengersAnimals = Profile.isAnimalsOn;
-
+        Profile.PassengersHumans = Profile.isHumansOn;
         Debug.Log("Profile file was loaded.");
     }
 
@@ -1012,6 +1012,7 @@ public static class Data
     public static void save()
     {
         Profile.isAnimalsOn = Profile.PassengersAnimals;
+        Profile.isHumansOn = Profile.PassengersHumans;
         var file = File.Open(destination, FileMode.Create);
         new BinaryFormatter().Serialize(file, Profile);
         file.Close();

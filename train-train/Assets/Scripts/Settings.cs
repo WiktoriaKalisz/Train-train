@@ -132,8 +132,18 @@ public class Settings : MonoBehaviour
     public void Symbol_type_selected(int newValue)
     {
         if (Data.Profile.symbolType != (SymbolType)newValue) Data.Profile.ResetScore();
-        if ((SymbolType)newValue <= SymbolType.Class5Math && (SymbolType)newValue > SymbolType.Class3Math) this.setPassengersAnimalsProfileValue(false);
-        else this.setPassengersAnimalsProfileValue(true);
+        if ((SymbolType)newValue <= SymbolType.Class5Math && (SymbolType)newValue > SymbolType.Class3Math)
+        {
+            this.setPassengersProfileValue(false, true);
+        }
+        else if((SymbolType)newValue <= SymbolType.Class3Math && (SymbolType)newValue >= SymbolType.Class1Math)
+        {
+            this.setPassengersProfileValue(true, false);
+        }
+        else
+        {
+            this.setPassengersProfileValue(true, true);
+        }
         Data.Profile.symbolType = (SymbolType)newValue;
         ShowSymbolEditFields();
         SaveInputFields();
@@ -187,12 +197,18 @@ public class Settings : MonoBehaviour
     {
         Data.Profile.leftHand = newValue;
     }
-    public void setPassengersAnimalsProfileValue(bool newValue)
+    public void setPassengersProfileValue(bool animals, bool humans)
     {
-        Profile.PassengersAnimals = newValue;
-        Data.Profile.isAnimalsOn = newValue;
+        Profile.PassengersAnimals = animals;
+        Data.Profile.isAnimalsOn = animals;
+
+        Profile.PassengersHumans = humans;
+        Data.Profile.isHumansOn = humans;
+
         Data.Profile.passengers = Profile.defaultPassengers();
     }
+
+    
     public void OnToggleLimitPassengersClick(bool newValue)
     {
         Data.Profile.limitPassengers = newValue;
