@@ -374,6 +374,7 @@ public class World : MonoBehaviour {
             {
                 Data.Profile.numberOfGamesOnCurrentGameMode++;
                 float percentageScore = 100.0f * score / level.GetMaxScoreToEarn();
+                if (percentageScore < 0) percentageScore = 0.0f;
                 Data.Profile.avgScoreOnCurrentGameMode = ((Data.Profile.avgScoreOnCurrentGameMode * (Data.Profile.numberOfGamesOnCurrentGameMode - 1)) + percentageScore) / (Data.Profile.numberOfGamesOnCurrentGameMode);
                 UpdatedAvgScore = true;
             }
