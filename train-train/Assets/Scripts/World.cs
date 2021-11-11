@@ -214,6 +214,8 @@ public class World : MonoBehaviour {
                 chooseText.color = Color.white;
                 startText.color = Color.white;
                 endText.color = Color.white;
+                backToMenuText.color = Color.white;
+                avgPointsText.color = Color.white;
                                 
 
                 break;
@@ -225,6 +227,8 @@ public class World : MonoBehaviour {
                 chooseText.color = Color.white;
                 startText.color = Color.white;
                 endText.color = Color.white;
+                backToMenuText.color = Color.white;
+                avgPointsText.color = Color.white;
 
                 break;
             case 3://tritanope
@@ -235,6 +239,8 @@ public class World : MonoBehaviour {
                 chooseText.color = Color.yellow;
                 startText.color = Color.yellow;
                 endText.color = Color.yellow;
+                backToMenuText.color = Color.yellow;
+                avgPointsText.color = Color.yellow;
                
                 break;
             default:
@@ -347,7 +353,7 @@ public class World : MonoBehaviour {
 
     private IEnumerator removeTrain() {
         train.playLeave();
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(15);
         SceneManager.LoadScene("Menu");
     }
 
