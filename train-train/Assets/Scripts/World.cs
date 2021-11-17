@@ -206,7 +206,7 @@ public class World : MonoBehaviour {
         {
             case 0://default
                 break;
-            case 1://protanope
+            case 1://protanopia
                 train.c_renderer.SetColor(Color.yellow);
                 directionalLight.color = Color.blue;
                 directionalLight.intensity =0.8f;
@@ -219,7 +219,7 @@ public class World : MonoBehaviour {
                                 
 
                 break;
-            case 2://deuteranope
+            case 2://deuteranopia
                 train.c_renderer.SetColor(Color.yellow);
                 directionalLight.color = Color.blue;
                 directionalLight.intensity = 1.0f;
@@ -231,7 +231,7 @@ public class World : MonoBehaviour {
                 avgPointsText.color = Color.white;
 
                 break;
-            case 3://tritanope
+            case 3://tritanopia
                 train.c_renderer.SetColor(Color.yellow);
                 directionalLight.color = Color.cyan;
                 directionalLight.intensity = 0.5f;

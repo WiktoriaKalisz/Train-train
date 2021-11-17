@@ -2191,11 +2191,11 @@ MonoBehaviour:
     m_Options:
     - m_Text: Default
       m_Image: {fileID: 0}
-    - m_Text: Protanope
+    - m_Text: Protanopia
       m_Image: {fileID: 0}
-    - m_Text: Deuteranope
+    - m_Text: Deuteranopia
       m_Image: {fileID: 0}
-    - m_Text: Tritanope
+    - m_Text: Tritanopia
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6264,7 +6264,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00000023842, y: 0.00000071526}
+  m_AnchoredPosition: {x: 0, y: 0.0000009536743}
   m_SizeDelta: {x: 99.9, y: 24.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1258040975
@@ -8186,7 +8186,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 0
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -8217,7 +8217,7 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 1
+  m_havePropertiesChanged: 0
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
