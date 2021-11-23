@@ -418,6 +418,13 @@ public class World : MonoBehaviour {
         {
             yield return new WaitForSeconds(4);
             back.gameObject.SetActive(false);
+
+
+
+        }
+        else
+        {
+            back.gameObject.SetActive(false);
         }
     }
 
