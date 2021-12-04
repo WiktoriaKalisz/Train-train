@@ -144,7 +144,7 @@ public class World : MonoBehaviour {
     private bool UpdatedAvgScore = false, increasedMathLevel = false;
     private void Awake()
     {
-
+        
         audioMixer.SetFloat("soundsVolume", Data.Profile.sounds);
         audioMixer.SetFloat("musicVolume", Data.Profile.music);
         float tmp;
@@ -209,7 +209,7 @@ public class World : MonoBehaviour {
             case 1://protanopia
                 train.c_renderer.SetColor(Color.yellow);
                 directionalLight.color = Color.blue;
-                directionalLight.intensity =0.8f;
+                directionalLight.intensity=0.8f;
                 pointsText.color = Color.white;
                 chooseText.color = Color.white;
                 startText.color = Color.white;
@@ -272,7 +272,18 @@ public class World : MonoBehaviour {
             train.move2.gameObject.SetActive(false);
         }
 
-            var rect = station.GetComponent<BoxCollider2D>().bounds;
+        if (train.Speed == 0)
+        {
+                if (Data.Profile.leftHand == false)
+                {
+                    train.arrow.SetActive(true);
+                }
+                else if (Data.Profile.leftHand == true) {
+                    train.arrow2.SetActive(true);
+                }
+        }
+
+        var rect = station.GetComponent<BoxCollider2D>().bounds;
         enablePassengerMove = train.seats.All(seat => rect.Contains(seat.transform.position));
 
 
@@ -401,6 +412,8 @@ public class World : MonoBehaviour {
             pointsText.gameObject.SetActive(false);
             avgPointsText.gameObject.SetActive(false);
             increasedLevelText.gameObject.SetActive(false);
+            train.arrow.SetActive(false);
+            train.arrow2.SetActive(false);
 
             if (increasedMathLevel)
             {
@@ -455,8 +468,6 @@ public class World : MonoBehaviour {
             return;
         }
 
-        List < Passenger > pas= train.seats.Select(s => s.passenger).ToList().FindAll(p => p != null && station.doesMatch(p));
-
         train.seats.Select(s => s.passenger).ToList().FindAll(p => p != null && station.doesMatch(p)).ForEach(s => { s.playSad(); score -= 3;
             scoreText.text = score.ToString();
         });
@@ -475,7 +486,7 @@ public class World : MonoBehaviour {
 
     private void stopOnStation(Train train, Station station) {
         if (train.Speed != 0) {
-            train.arrow.SetActive(false);
+            //train.arrow.SetActive(true);
             train.Stop();
         }
     }
